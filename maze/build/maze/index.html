@@ -101,7 +101,6 @@
     <script type="text/javascript" src="_static/jquery.hotkey.js"></script>
     <script type="text/javascript" src="_static/jquery-migrate-1.2.1.min.js"></script>
     <link rel="top" title="Runestone Interactive Overview" href="#" />
-    <link rel="next" title="An Overview of Runestone Interactive" href="overview.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
@@ -260,8 +259,6 @@
   <ul class="dropdown-menu localtoc"><ul>
 <li><a class="reference internal" href="#">The CSI 106 Maze Project</a><ul>
 <li><a class="reference internal" href="#section-1-introduction">SECTION 1: Introduction</a></li>
-<li><a class="reference internal" href="#section-2-an-overview-of-the-extensions">SECTION 2: An Overview of the extensions</a></li>
-<li><a class="reference internal" href="#section-2-add-more-stuff-here">SECTION 2: Add more stuff here</a></li>
 </ul>
 </li>
 </ul>
@@ -271,12 +268,6 @@
         
         
           
-  <li id="relations-next" title='Next Chapter - An Overview of Runestone Interactive' data-toggle="tooltip" >
-    <a href="overview.html" >
-      <i class='glyphicon glyphicon-forward' style='opacity:0.9;'></i>
-    </a>
-  </li>
-  <li class="divider-vertical"></li>
 
 <script type="text/javascript">
   opts = {'placement':'bottom',
@@ -331,6 +322,9 @@ class Maze(object):
    def __init__(self):
       pass
 
+# this code is not very elegant. Perhaps you can experiment with a better implementation
+# for extra credit.
+
 error=False
 try:
    m=Maze()
@@ -347,72 +341,362 @@ else:
 <textarea data-component="activecode" id=m_w_1 data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
 import turtle
 wn = turtle.Screen()
-wn.bgcolor("lightblue")
+wn.bgcolor("blue")
 </textarea>
 <p>When you run this code you will see the blue screen we created. A blue color means a wall.
 This is the visual representation of our maze. We don&#8217;t have any paths created yet. It&#8217;s all
 wall.</p>
-<p>Now let&#8217;s put this into the maze class.</p>
+<p>Now let&#8217;s put this into the maze class. First write the test for the screen.</p>
 
-<textarea data-component="activecode" id=m_class_2 data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+<textarea data-component="activecode" id=m_test_screen data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
 import turtle
 class Maze(object):
-   """ creates a maze """
+   """ Solves a maze """
    def __init__(self):
-      self.w = turtle.Screen()
-      self.w.bgcolor('lightblue')
+      pass
+
+m=Maze()
+assert type(m.screen)==turtle.Screen
+</textarea>
+<p>Now add the screen.</p>
+
+<textarea data-component="activecode" id=m_add_screen data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+import turtle
+class Maze(object):
+   """ Solves a maze """
+   def __init__(self):
+      self.screen=turtle.Screen()
+
+m=Maze()
+assert type(m.screen)==turtle.Screen
+</textarea>
+<p>Condition is now GREEN. We also need a turtle.  Add a test for the turtle.</p>
+
+<textarea data-component="activecode" id=m_turtle_test data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+import turtle
+class Maze(object):
+   """ Solves a maze """
+   def __init__(self):
+      self.screen=turtle.Screen()
+
+m=Maze()
+assert type(m.turtle)==turtle.Turtle
+</textarea>
+<p>And you know the next step to get GREEN.</p>
+
+<textarea data-component="activecode" id=m_add_turtle data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+import turtle
+class Maze(object):
+   """ Solves a maze """
+   def __init__(self):
+      self.screen=turtle.Screen()
+      self.turtle=turtle.Turtle()
+
+m=Maze()
+assert type(m.turtle)==turtle.Turtle
+</textarea>
+<p>We will first be constructing our maze using the colors blue for a wall, white for a path, and yellow for the final goal.  Since we are making a path, it seems like a good starting point would be to have nothing but walls.  This means a blue screen.  There is no way to get the color from the screen object that I know of so we will skip writing a test for this simple step.  Here&#8217;s the code.</p>
+
+<textarea data-component="activecode" id=m_blue_bg data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+import turtle
+class Maze(object):
+   """ Solves a maze """
+   def __init__(self):
+      self.screen=turtle.Screen()
+      self.turtle=turtle.Turtle()
+      self.screen.bgcolor('blue')
 
 m=Maze()
 </textarea>
-<p>Congratulations!   If you can see this file you have probably successfully run the <code class="docutils literal"><span class="pre">runestone</span> <span class="pre">init</span></code> command.  If you are looking at this as a source file you should now run <code class="docutils literal"><span class="pre">runestone</span> <span class="pre">build</span></code>  to generate html files.   Once you have run the build command you can run <code class="docutils literal"><span class="pre">runestone</span> <span class="pre">serve</span></code> and then view this in your browser at <code class="docutils literal"><span class="pre">http://localhost:8000</span></code></p>
-<p>This is just a sample of what you can do.  The index.rst file is the table of contents for your entire project.  You can put all of your writing in the index, or as you will see in the following section you can include additional rst files.  those files may even be in subdirectories that you can reference using a relative path.</p>
-<p>The overview section, which follows is an ideal section to look at both online and at the source.  It is pretty easy to see how to write using any of the interactive features just by looking at the examples in <code class="docutils literal"><span class="pre">overview.rst</span></code></p>
-</div>
-<div class="section" id="section-2-an-overview-of-the-extensions">
-<h2>SECTION 2: An Overview of the extensions<a class="headerlink" href="#section-2-an-overview-of-the-extensions" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="overview.html">An Overview of Runestone Interactive</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#embedded-videos">Embedded Videos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#youtube">YouTube</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#activecode-windows">ActiveCode Windows</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#the-codelens-tool">The CodeLens Tool</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#self-check-questions">Self-Check Questions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#timed-exam-questions">Timed Exam Questions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#unit-tests-for-code">Unit Tests for Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#drag-n-drop">Drag N Drop</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#clickable-area">Clickable Area</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#disqus-comment-box">Disqus Comment Box</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#tabbed-question">Tabbed Question</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#polls">Polls</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#reveals">Reveals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#dom-access">DOM Access</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#javascript">JavaScript</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#html">HTML</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#blockly">Blockly</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#other-languages-in-activecode">Other Languages in ActiveCode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#audio-tours">Audio Tours</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#what-to-do-now">What To Do Now</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-<div class="section" id="section-2-add-more-stuff-here">
-<h2>SECTION 2: Add more stuff here<a class="headerlink" href="#section-2-add-more-stuff-here" title="Permalink to this headline">¶</a></h2>
-<p>You can add more stuff here.</p>
+<p>You should now see the blue screen.</p>
+<p>Now we need to think about how we will represent our maze.  I choose a matrix as the data type best suited. Each item in the matrix corresponds to a location in the maze. The size of the screen by default is 400x400.  The way we will draw on the screen is by using the stamp method in the turtle module and a square for the shape. (look into the documentation on the turtle module for more clarification on those methods.)</p>
+<p>The default size for the square is 20x20. So we can have 20 rows and 20 columns in our matrix since the size of the screen is 400x400.  The origin is in the middle. so -190,190 corresponds to the [0][0] location of the matrix. Let&#8217;s clarify our thinking a little by writing code to draw a white square in the upper left hand corner.</p>
+
+<textarea data-component="activecode" id=m_draw_square data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+import turtle
+s=turtle.Screen()
+s.bgcolor('blue')
+t=turtle.Turtle()
+t.penup()
+t.goto(-190,190)
+t.shape('square')
+t.color('white')
+t.stamp()
+</textarea>
+<p>Here&#8217;s how we would draw a path along the top of the screen.</p>
+
+<textarea data-component="activecode" id=m_draw_path_1 data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+import turtle
+s=turtle.Screen()
+s.bgcolor('blue')
+t=turtle.Turtle()
+t.penup()
+for x in range(-190,210,20):
+    t.goto(x,190)
+    t.shape('square')
+    t.color('white')
+    t.stamp()
+</textarea>
+<p>This is all useful for learning about the tools we have.  Let&#8217;s create a test for our matrix, the internal representation of the maze.</p>
+
+<textarea data-component="activecode" id=m_test_matrix data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+import turtle
+class Maze(object):
+      """ Solves a maze """
+      def __init__(self):
+      self.screen=turtle.Screen()
+      self.turtle=turtle.Turtle()
+      self.screen.bgcolor('blue')
+
+m=Maze()
+assert len(m.matrix)==20
+</textarea>
+<p>This only checks for the height of our matrix but it&#8217;s good enough for now.  To make this test pass we want to add a matrix to our maze. Here&#8217;s the code that does that. Notice that all the values in the matrix are 1 which corresponds to everything being a wall.</p>
+
+<textarea data-component="activecode" id=m_add_matrix data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+import turtle
+class Maze(object):
+      """ Solves a maze """
+      def __init__(self):
+         self.screen=turtle.Screen()
+         self.turtle=turtle.Turtle()
+         self.screen.bgcolor('blue')
+         self.matrix=[[1 for i in range(20)] for i in range(20)]
+
+m=Maze()
+assert len(m.matrix)==20
+</textarea>
+<p>We will start our path from the upper left hand corner, an arbitrary choice. Let&#8217;s imagine we are digging our path through the walls. When we dig into the space, we turn a 1 in our matrix to a 0.  This indicates we have an empty space at that location.  It&#8217;s easy to then consider a function called <em>dig</em> where we pass in a direction and the turtle will dig in that direction one space if possible.</p>
+<p>Since we are starting from the upper left hand corner, matrix[0][0] should be 0 and the turtle location should be -190,190.  Let&#8217;s put a reset function in so we can always get to this starting configuration.</p>
+
+<textarea data-component="activecode" id=m_reset_test data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+import turtle
+class Maze(object):
+      """ Solves a maze """
+      def __init__(self):
+         self.screen=turtle.Screen()
+         self.turtle=turtle.Turtle()
+         self.screen.bgcolor('blue')
+         self.matrix=[[1 for i in range(20)] for i in range(20)]
+
+m=Maze()
+m.reset()
+assert m.turtle.pos()==(-190,190)
+</textarea>
+<p>Make it pass now.</p>
+
+<textarea data-component="activecode" id=m_reset_pass data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+import turtle
+class Maze(object):
+   """ Solves a maze """
+   def __init__(self):
+      self.screen=turtle.Screen()
+      self.turtle=turtle.Turtle()
+      self.screen.bgcolor('blue')
+      self.matrix=[[1 for i in range(20)] for i in range(20)]
+      self.turtle.penup()
+   def reset(self):
+      self.turtle.goto(-190,190)
+      self.matrix=[[1 for i in range(20)] for i in range(20)]
+      self.screen.bgcolor('blue')
+      self.turtle.shape('square')
+      self.turtle.color('white')
+      self.turtle.stamp()
+      self.matrix[0][0]=0
+
+m=Maze()
+m.reset()
+assert m.turtle.pos()==(-190,190)
+assert m.matrix[0][0]==0
+assert m.turtle.towards(190,190)&360==0
+</textarea>
+<p>Now we are at a point where we can consider the <em>dig</em> function.  I imagine m.dig(EAST) will move one square to the East on the screen. But what is EAST and why and I using capitals?  In programming it is common to map words to constants and when we do that we often use all capitals to indicate that&#8217;s what is going on. The way we do this in python is simple.</p>
+
+<textarea data-component="activecode" id=m_const data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+EAST=0
+NORTH=1
+WEST=2
+SOUTH=3
+</textarea>
+<p>If we do this, it makes it easier since we don&#8217;t have to remember 0 is East. So we know we want one argument for <em>dig</em>.  What do we want back?  If we get back the position of the turtle, we can tell if it succeeded in moving and we can tell where it is also. After a reset we should be able to dig East. So calling m.dig(EAST) should return (-170,190).  Now we know how to write our test.</p>
+
+<textarea data-component="activecode" id=m_test_dig data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+import turtle
+EAST=0;NORTH=1;WEST=2;SOUTH=3
+class Maze(object):
+   """ Solves a maze """
+   def __init__(self):
+      self.screen=turtle.Screen()
+      self.turtle=turtle.Turtle()
+      self.screen.bgcolor('blue')
+      self.matrix=[[1 for i in range(20)] for i in range(20)]
+      self.turtle.penup()
+   def reset(self):
+      self.turtle.goto(-190,190)
+      self.matrix=[[1 for i in range(20)] for i in range(20)]
+      self.screen.bgcolor('blue')
+      self.turtle.shape('square')
+      self.turtle.color('white')
+      self.turtle.stamp()
+      self.matrix[0][0]=0
+   def dig(self):
+      pass
+
+m=Maze()
+m.reset()
+assert m.dig(EAST)==(-170,190)
+</textarea>
+<p>To create a passing test, we need to add the code for <em>dig</em>. One thing that becomes very obvious is that we need to map the position of the turtle into the matrix locations because we can&#8217;t use the turtle position to index the matrix directly. What would be convenient is to be able to access the matrix with the turtle position.  Something like</p>
+
+<textarea data-component="activecode" id=m_access_matrix data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+value=m.getMatrixValueAt(m.turtle.position)
+m.setMatrixValueAt(m.turtle.position,value)
+</textarea>
+<p>At reset conditions, the matrix value would be 0 at [0][0] because we have a space there.  Our test should be
+.. activecode:: m_test_map</p>
+<blockquote>
+<div>m.reset()
+assert m.getMatrixValueAt(m.turtle.position)==0</div></blockquote>
+<p>Make it pass.</p>
+
+<textarea data-component="activecode" id=m_test_dig data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+import turtle
+EAST=0;NORTH=1;WEST=2;SOUTH=3
+class Maze(object):
+   """ Solves a maze """
+   def __init__(self):
+      self.screen=turtle.Screen()
+      self.turtle=turtle.Turtle()
+      self.screen.bgcolor('blue')
+      self.matrix=[[1 for i in range(20)] for i in range(20)]
+      self.turtle.penup()
+   def reset(self):
+      self.turtle.goto(-190,190)
+      self.matrix=[[1 for i in range(20)] for i in range(20)]
+      self.screen.bgcolor('blue')
+      self.turtle.shape('square')
+      self.turtle.color('white')
+      self.turtle.stamp()
+      self.matrix[0][0]=0
+   def dig(self):
+      pass
+   def getMatrixValueAt(self,pos):
+      x=int((pos[0]+200)/20)
+      y=20-int((pos[1]+200)/20)-1
+      v=self.matrix[x][y]
+      return v
+
+m=Maze()
+m.reset()
+m.reset()
+assert m.getMatrixValueAt(m.turtle.position)==0
+# we are putting this test on hold for now
+# assert m.dig(EAST)==(-170,190)
+</textarea>
+<p>Now for setMatrixValueAt(pos).</p>
+
+<textarea data-component="activecode" id=m_test_dig2 data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+import turtle
+EAST=0;NORTH=1;WEST=2;SOUTH=3
+class Maze(object):
+   """ Solves a maze """
+   def __init__(self):
+      self.screen=turtle.Screen()
+      self.turtle=turtle.Turtle()
+      self.screen.bgcolor('blue')
+      self.matrix=[[1 for i in range(20)] for i in range(20)]
+      self.turtle.penup()
+   def reset(self):
+      self.turtle.goto(-190,190)
+      self.matrix=[[1 for i in range(20)] for i in range(20)]
+      self.screen.bgcolor('blue')
+      self.turtle.shape('square')
+      self.turtle.color('white')
+      self.turtle.stamp()
+      self.matrix[0][0]=0
+   def dig(self):
+      pass
+   def getMatrixValueAt(self,pos):
+      x=int((pos[0]+200)/20)
+      y=20-int((pos[1]+200)/20)-1
+      v=self.matrix[x][y]
+      return v
+   def setMatrixValueAt(self,pos,value):
+      x=int((pos[0]+200)/20)
+      y=20-int((pos[1]+200)/20)-1
+      try:
+         self.matrix[y][x]=value
+      except:
+         return False
+      return True
+
+m=Maze()
+m.reset()
+m.reset()
+assert m.getMatrixValueAt(m.turtle.position())==0
+assert m.setMatrixValueAt(m.turtle.position(),1)==True
+assert m.matrix[0][0]==1
+# we are putting this test on hold for now
+# assert m.dig(EAST)==(-170,190)
+</textarea>
+<p>Nice! Now we can just use our turtle position to set the matrix. But after we set the matrix to 1, we should see the white square dissappear if it properly represents our matrix. Let&#8217;s fix that.</p>
+
+<textarea data-component="activecode" id=m_test_dig3 data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+import turtle
+EAST=0;NORTH=1;WEST=2;SOUTH=3
+class Maze(object):
+   """ Solves a maze """
+   def __init__(self):
+      self.screen=turtle.Screen()
+      self.turtle=turtle.Turtle()
+      self.screen.bgcolor('blue')
+      self.matrix=[[1 for i in range(20)] for i in range(20)]
+      self.turtle.penup()
+   def reset(self):
+      self.turtle.goto(-190,190)
+      self.matrix=[[1 for i in range(20)] for i in range(20)]
+      self.screen.bgcolor('blue')
+      self.turtle.shape('square')
+      self.turtle.color('white')
+      self.turtle.stamp()
+      self.matrix[0][0]=0
+   def dig(self):
+      pass
+   def getMatrixValueAt(self,pos):
+      x=int((pos[0]+200)/20)
+      y=20-int((pos[1]+200)/20)-1
+      v=self.matrix[x][y]
+      return v
+   def setMatrixValueAt(self,pos,value):
+      x=int((pos[0]+200)/20)
+      y=20-int((pos[1]+200)/20)-1
+      try:
+         self.matrix[y][x]=value
+      except:
+         return False
+      if value==0:
+         self.turtle.color('white')
+         self.turtle.stamp()
+      if value==1:
+         self.turtle.color('blue')
+         self.turtle.stamp()
+      return True
+
+m=Maze()
+m.reset()
+m.reset()
+assert m.getMatrixValueAt(m.turtle.position())==0
+assert m.setMatrixValueAt(m.turtle.position(),1)==True
+assert m.matrix[0][0]==1
+# we are putting this test on hold for now
+# assert m.dig(EAST)==(-170,190)
+</textarea>
 </div>
 </div>
 
 
   
       
-  <li id="relations-next" class="navLink" title='Next Section - An Overview of Runestone Interactive' data-toggle="tooltip" >
-    <a href="overview.html" >
-      <i id="relationsNextIcon" class='nextNav glyphicon glyphicon-chevron-right'></i>
-    </a>
-  </li>
-  <a class="navLinkBg navLink" id="navLinkBgRight" href="overview.html" >Next Section - An Overview of Runestone Interactive</a>
 
 <script type="text/javascript">
 
