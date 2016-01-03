@@ -445,3 +445,15 @@ Nice! Now we can just use our turtle position to set the matrix. But after we se
    assert m.matrix[0][0]==1
    # we are putting this test on hold for now
    # assert m.dig(EAST)==(-170,190)
+
+Now we can map turtle position to matrix element. Remember we are trying to implement *dig* ultimately. Let's  manually do a little digging. 
+
+.. activecode:: m_manual_dig
+
+   import turtle
+   import maze1
+
+   m=Maze()
+
+
+   
