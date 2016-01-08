@@ -1101,6 +1101,8 @@ It might be nice to have a method called *neighbors* which returns the state of 
 
 *neighbors* should return 4 values, the neighbors in all 4 directions.  At the boundaries, the values outside the matrix should be -1 to indicate invalid locations. 
 
+A neighbor is actually 2 cells away since walls take up a cell's width. 
+
 At reset condition then, *neighbors* should return [-1,1,1,-1] for the NORTH, SOUTH, EAST, and WEST neighbors.  
 
 
@@ -1159,10 +1161,10 @@ Now that we have added neighbors, let's put it into our Maze class rather than j
       def neighbors(self):
 	p=self.turtle.position()
 	r=[]
-	r.append(m.getMatrixValueAt((p[0],p[1]+20)))
-	r.append(m.getMatrixValueAt((p[0],p[1]-20)))
-	r.append(m.getMatrixValueAt((p[0]+20,p[1])))
-	r.append(m.getMatrixValueAt((p[0]-20,p[1])))
+	r.append([(p[0],p[1]+40),m.getMatrixValueAt((p[0],p[1]+40))])
+	r.append([(p[0],p[1]-40),m.getMatrixValueAt((p[0],p[1]-40))])
+	r.append([(p[0]+40,p[1]),m.getMatrixValueAt((p[0]+40,p[1]))])
+	r.append([(p[0]-40,p[1]),m.getMatrixValueAt((p[0]-40,p[1]))])
         return r
       def dig(self,dir):
         if dir == EAST:
@@ -1221,24 +1223,11 @@ Now that we have added neighbors, let's put it into our Maze class rather than j
          v=self.matrix[x][y]
          return v
 
-Let's give this algorithm a shot. 
-
-.. activecode:: m_gen_shot
-   :include: m_maze_class_3
-
-   m=Maze()
-   m.reset()
-
-   m.setMatrixValueAt((-190,190),2)   
-   def step2(pos):
-      # mark as visited (2)
-      m.setMatrixValueAt(m.turtle.position(),2)
-      n=m.neighbors()
-      while len(n)>0:
-         # randomly select neighbor
-         c=random.choice(n)
-         n.delete(c)
-	 if c==0: # not visited
-            step2(
             
-   
+The first test for the algorithm? We have that already. The starting position of the turtle is already checked.  Step 2 of the algorithm is to mark the cell as visited.  We will use some more constants as follows. 
+
+	- EMPTY = 0
+	- WALL = 1
+	- VISITED = 2
+	- END = 3
+

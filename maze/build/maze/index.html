@@ -1317,6 +1317,7 @@ assert r==(-190,-170),"got " + str(r)
 </ol>
 <p>It might be nice to have a method called <em>neighbors</em> which returns the state of the cells neighboring the current cell.</p>
 <p><em>neighbors</em> should return 4 values, the neighbors in all 4 directions.  At the boundaries, the values outside the matrix should be -1 to indicate invalid locations.</p>
+<p>A neighbor is actually 2 cells away since walls take up a cell&#8217;s width.</p>
 <p>At reset condition then, <em>neighbors</em> should return [-1,1,1,-1] for the NORTH, SOUTH, EAST, and WEST neighbors.</p>
 
 <textarea data-component="activecode" id=m_test_digPath_1 data-lang="python"   data-include=m_maze_class_2 data-timelimit=25000  data-codelens="true" data-audio=''     >
@@ -1367,10 +1368,10 @@ class Maze(object):
    def neighbors(self):
      p=self.turtle.position()
      r=[]
-     r.append(m.getMatrixValueAt((p[0],p[1]+20)))
-     r.append(m.getMatrixValueAt((p[0],p[1]-20)))
-     r.append(m.getMatrixValueAt((p[0]+20,p[1])))
-     r.append(m.getMatrixValueAt((p[0]-20,p[1])))
+     r.append([(p[0],p[1]+40),m.getMatrixValueAt((p[0],p[1]+40))])
+     r.append([(p[0],p[1]-40),m.getMatrixValueAt((p[0],p[1]-40))])
+     r.append([(p[0]+40,p[1]),m.getMatrixValueAt((p[0]+40,p[1]))])
+     r.append([(p[0]-40,p[1]),m.getMatrixValueAt((p[0]-40,p[1]))])
      return r
    def dig(self,dir):
      if dir == EAST:
@@ -1429,6 +1430,15 @@ class Maze(object):
       v=self.matrix[x][y]
       return v
 </textarea>
+<p>The first test for the algorithm? We have that already. The starting position of the turtle is already checked.  Step 2 of the algorithm is to mark the cell as visited.  We will use some more constants as follows.</p>
+<blockquote>
+<div><ul class="simple">
+<li>EMPTY = 0</li>
+<li>WALL = 1</li>
+<li>VISITED = 2</li>
+<li>END = 3</li>
+</ul>
+</div></blockquote>
 </div>
 </div>
 
