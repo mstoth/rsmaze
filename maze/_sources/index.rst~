@@ -615,9 +615,19 @@ Now let's do a reset and dig south.  I'm showing both the test and the code to m
    assert m.getMatrixValueAt(m.turtle.position())==0
    assert m.turtle.position() == (-190,170)
 
-We can't dig west from the reset condition so let's make sure that is understood by the function.  We need to assert that digging west just returns the original location of the turtle so we know it didn't move. 
+We can't dig west from the reset condition so let's make sure that is understood by the function.  We need to assert that digging west just returns the original location of the turtle so we know it didn't move. Note that the previous code is included in the following. 
 
 .. activecode:: m_test_dig7
+   :include: m_test_dig6
+
+   m=Maze()
+   m.reset()
+   assert m.dig(WEST) == (-190,190)
+
+
+Well this test actually passed without us doing anything but it's just a fluke because we ignore WEST and in this case that's what we want to do.  Let's get a little more involved with our testing.  We can go East and South, so let's try going East, South, and then West.  We should see our failure then. 
+
+.. activecode:: m_test_dig9
 
    import turtle
    EAST=0;NORTH=1;WEST=2;SOUTH=3
@@ -644,9 +654,6 @@ We can't dig west from the reset condition so let's make sure that is understood
 	elif dir == SOUTH:
 	  self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]-20)
 	  self.setMatrixValueAt(self.turtle.position(),0)
-	elif dir == WEST:
-	  if self.turtle.position()[0]==-190:
-	    return self.turtle.position()
 
 	return self.turtle.position()
 
@@ -673,4 +680,709 @@ We can't dig west from the reset condition so let's make sure that is understood
 
    m=Maze()
    m.reset()
-   assert m.dig(WEST) == (-190,190)
+   m.dig(EAST)
+   m.dig(SOUTH)
+   r=m.dig(WEST)
+   assert r == (-190,170), "should be at (-190,170) but got " + str(r)
+
+
+Of course we can see how ignoring WEST was just a fluke here. Sometimes writing tests is a little more involved than at first perceived.  Now let's get this test to pass. 
+
+.. activecode:: m_test_dig10
+
+   import turtle
+   EAST=0;NORTH=1;WEST=2;SOUTH=3
+   class Maze(object):
+      """ Solves a maze """
+      def __init__(self):
+         self.screen=turtle.Screen()
+      	 self.turtle=turtle.Turtle()
+      	 self.screen.bgcolor('blue')
+	 self.matrix=[[1 for i in range(20)] for i in range(20)]
+	 self.turtle.penup()
+      def reset(self):
+         self.turtle.goto(-190,190)
+	 self.matrix=[[1 for i in range(20)] for i in range(20)]
+	 self.screen.bgcolor('blue')
+         self.turtle.shape('square')
+         self.turtle.color('white')
+         self.turtle.stamp()
+         self.matrix[0][0]=0
+      def dig(self,dir):
+	if dir == EAST:
+	  if self.turtle.position()[0]<190:
+	    self.turtle.goto(self.turtle.position()[0]+20,self.turtle.position()[1])
+	    self.setMatrixValueAt(self.turtle.position(),0)
+	elif dir == SOUTH:
+	  if self.turtle.position()[1]>-190:
+	    self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]-20)
+	    self.setMatrixValueAt(self.turtle.position(),0)
+	elif dir ==  WEST:
+	  if self.turtle.position()[0]>-190:
+	    self.turtle.goto(self.turtle.position()[0]-20,self.turtle.position()[1])
+	    self.setMatrixValueAt(self.turtle.position(),0)
+	return self.turtle.position()
+
+
+      def getMatrixValueAt(self,pos):
+         x=int((pos[0]+200)/20)
+         y=20-int((pos[1]+200)/20)-1
+         v=self.matrix[x][y]
+         return v
+      def setMatrixValueAt(self,pos,value):
+         y=int((pos[0]+200)/20)
+         x=20-int((pos[1]+200)/20)-1
+	 try:
+	    self.matrix[y][x]=value
+	 except:
+	    return False
+         if value==0:
+	    self.turtle.color('white')
+	    self.turtle.stamp()
+	 if value==1:
+ 	    self.turtle.color('blue')
+	    self.turtle.stamp()
+         return True
+
+   m=Maze()
+   m.reset()
+   m.dig(EAST)
+   m.dig(SOUTH)
+   r=m.dig(WEST)
+   assert r == (-190,170), "should be at (-190,170) but got " + str(r)
+
+
+We have dug ourselves a nice square. One last direction to test, NORTH.  Here's both the test and the solution. 
+
+
+.. activecode:: m_test_dig11
+
+   import turtle
+   EAST=0;NORTH=1;WEST=2;SOUTH=3
+   class Maze(object):
+      """ Solves a maze """
+      def __init__(self):
+         self.screen=turtle.Screen()
+      	 self.turtle=turtle.Turtle()
+      	 self.screen.bgcolor('blue')
+	 self.matrix=[[1 for i in range(20)] for i in range(20)]
+	 self.turtle.penup()
+      def reset(self):
+         self.turtle.goto(-190,190)
+	 self.matrix=[[1 for i in range(20)] for i in range(20)]
+	 self.screen.bgcolor('blue')
+         self.turtle.shape('square')
+         self.turtle.color('white')
+         self.turtle.stamp()
+         self.matrix[0][0]=0
+      def dig(self,dir):
+	if dir == EAST:
+	  if self.turtle.position()[0]<190:
+	    self.turtle.goto(self.turtle.position()[0]+20,self.turtle.position()[1])
+	    self.setMatrixValueAt(self.turtle.position(),0)
+	elif dir == SOUTH:
+	  if self.turtle.position()[1]>-190:
+	    self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]-20)
+	    self.setMatrixValueAt(self.turtle.position(),0)
+	elif dir ==  WEST:
+	  if self.turtle.position()[0]>-190:
+	    self.turtle.goto(self.turtle.position()[0]-20,self.turtle.position()[1])
+	    self.setMatrixValueAt(self.turtle.position(),0)
+	elif dir ==  NORTH:
+	  if self.turtle.position()[1]<190:
+	    self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]+20)
+	    self.setMatrixValueAt(self.turtle.position(),0)
+	return self.turtle.position()
+
+
+      def getMatrixValueAt(self,pos):
+         x=int((pos[0]+200)/20)
+         y=20-int((pos[1]+200)/20)-1
+         v=self.matrix[x][y]
+         return v
+      def setMatrixValueAt(self,pos,value):
+         y=int((pos[0]+200)/20)
+         x=20-int((pos[1]+200)/20)-1
+	 try:
+	    self.matrix[y][x]=value
+	 except:
+	    return False
+         if value==0:
+	    self.turtle.color('white')
+	    self.turtle.stamp()
+	 if value==1:
+ 	    self.turtle.color('blue')
+	    self.turtle.stamp()
+         return True
+
+   m=Maze()
+   m.reset()
+   m.dig(EAST)
+   m.dig(SOUTH)
+   m.dig(WEST)
+   r=m.dig(NORTH)
+   assert r == (-190,190), "should be at (-190,190) but got " + str(r)
+
+
+Here is our Maze class. 
+
+.. activecode:: m_maze_class
+
+   import turtle
+   EAST=0;NORTH=1;WEST=2;SOUTH=3
+   class Maze(object):
+      """ Solves a maze """
+      def __init__(self):
+         self.screen=turtle.Screen()
+      	 self.turtle=turtle.Turtle()
+      	 self.screen.bgcolor('blue')
+	 self.matrix=[[1 for i in range(20)] for i in range(20)]
+	 self.turtle.penup()
+      def reset(self):
+         self.turtle.goto(-190,190)
+	 self.matrix=[[1 for i in range(20)] for i in range(20)]
+	 self.screen.bgcolor('blue')
+         self.turtle.shape('square')
+         self.turtle.color('white')
+         self.turtle.stamp()
+         self.matrix[0][0]=0
+      def dig(self,dir):
+	if dir == EAST:
+	  if self.turtle.position()[0]<190:
+	    self.turtle.goto(self.turtle.position()[0]+20,self.turtle.position()[1])
+	    self.setMatrixValueAt(self.turtle.position(),0)
+	elif dir == SOUTH:
+	  if self.turtle.position()[1]>-190:
+	    self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]-20)
+	    self.setMatrixValueAt(self.turtle.position(),0)
+	elif dir ==  WEST:
+	  if self.turtle.position()[0]>-190:
+	    self.turtle.goto(self.turtle.position()[0]-20,self.turtle.position()[1])
+	    self.setMatrixValueAt(self.turtle.position(),0)
+	elif dir ==  NORTH:
+	  if self.turtle.position()[1]<190:
+	    self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]+20)
+	    self.setMatrixValueAt(self.turtle.position(),0)
+	return self.turtle.position()
+
+
+      def getMatrixValueAt(self,pos):
+         x=int((pos[0]+200)/20)
+         y=20-int((pos[1]+200)/20)-1
+         v=self.matrix[x][y]
+         return v
+      def setMatrixValueAt(self,pos,value):
+         y=int((pos[0]+200)/20)
+         x=20-int((pos[1]+200)/20)-1
+	 try:
+	    self.matrix[y][x]=value
+	 except:
+	    return False
+         if value==0:
+	    self.turtle.color('white')
+	    self.turtle.stamp()
+	 if value==1:
+ 	    self.turtle.color('blue')
+	    self.turtle.stamp()
+         return True
+
+
+Our code examples will now just include that invisibly and we will override functions. 
+
+We now have our dig method.  We can dig in all 4 directions.  There are more tests we can add for more complete confidence in the method but for now, let's move on.   We may go back and add some more tests for *dig* if we find things are breaking. 
+
+One thing we need to be careful about when digging our paths in the maze is that we need to make sure we don't go into another preexisting path.  Our tests make a big square in the upper left hand corner but we really don't want that to happen.  We want some wall between paths.  Lets prevent digging if it means we connect to a preexisting path.  This means that the 3 locations surrounding the new space must be walls.  Spaces outside the boundary of the screen are considered walls.  
+
+How do we test this? If we make a space at location m.matrix[0][2] then we should not be able to dig EAST from m.matrix[0][0].  
+
+.. activecode:: m_dig_noconnect_test
+   :include: m_maze_class
+
+   class Maze2(Maze):
+      def dig(self,dir):
+	if dir == EAST:
+	  if self.turtle.position()[0]<190:
+	    if self.getMatrixValueAt((self.turtle.position()[0]+40,self.turtle.position()[1]))>0:
+	      self.turtle.goto(self.turtle.position()[0]+20,self.turtle.position()[1])
+	      self.setMatrixValueAt(self.turtle.position(),0)
+	elif dir == SOUTH:
+	  if self.turtle.position()[1]>-190:
+	    self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]-20)
+	    self.setMatrixValueAt(self.turtle.position(),0)
+	elif dir ==  WEST:
+	  if self.turtle.position()[0]>-190:
+	    self.turtle.goto(self.turtle.position()[0]-20,self.turtle.position()[1])
+	    self.setMatrixValueAt(self.turtle.position(),0)
+	elif dir ==  NORTH:
+	  if self.turtle.position()[1]<190:
+	    self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]+20)
+	    self.setMatrixValueAt(self.turtle.position(),0)
+	return self.turtle.position()
+
+
+   m=Maze2()
+   m.reset()
+   m.setMatrixValueAt((-150,190),0)
+   r=m.dig(EAST)
+   assert r==(-190,190),"Not at Home position, got " + str(r)
+
+
+This passes but why don't we see the white square appearing at location (-150,190)?  We assumed the turtle was where it should be to stamp the value but we need to move the turtle to that location first and then move the turtle back. So we correct the setMatrixValueAt method. 
+
+.. activecode:: m_dig_noconnect_test2
+   :include: m_maze_class
+
+   class Maze2(Maze):
+      def dig(self,dir):
+	if dir == EAST:
+	  if self.turtle.position()[0]<190:
+	    if self.getMatrixValueAt((self.turtle.position()[0]+40,self.turtle.position()[1]))>0:
+	      self.turtle.goto(self.turtle.position()[0]+20,self.turtle.position()[1])
+	      self.setMatrixValueAt(self.turtle.position(),0)
+	elif dir == SOUTH:
+	  if self.turtle.position()[1]>-190:
+	    self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]-20)
+	    self.setMatrixValueAt(self.turtle.position(),0)
+	elif dir ==  WEST:
+	  if self.turtle.position()[0]>-190:
+	    self.turtle.goto(self.turtle.position()[0]-20,self.turtle.position()[1])
+	    self.setMatrixValueAt(self.turtle.position(),0)
+	elif dir ==  NORTH:
+	  if self.turtle.position()[1]<190:
+	    self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]+20)
+	    self.setMatrixValueAt(self.turtle.position(),0)
+	return self.turtle.position()
+      def setMatrixValueAt(self,pos,value):
+         y=int((pos[0]+200)/20)
+         x=20-int((pos[1]+200)/20)-1
+	 try:
+	    self.matrix[y][x]=value
+	 except:
+	    return False
+         oldPos=self.turtle.position()
+	 self.turtle.goto(pos)
+         if value==0:
+	    self.turtle.color('white')
+	    self.turtle.stamp()
+	 if value==1:
+ 	    self.turtle.color('blue')
+	    self.turtle.stamp()
+	 self.turtle.goto(oldPos)
+         return True
+
+
+   m=Maze2()
+   m.reset()
+   m.setMatrixValueAt((-150,190),0)
+   r=m.dig(EAST)
+   assert r==(-190,190),"Not at Home position, got " + str(r)
+
+
+Now we see the white square at (-150,190).  I will leave it to you to handle the other directions. After you are done, you should have a class that looks like this. 
+
+.. activecode:: m_maze_class_2
+
+   import turtle
+   EAST=0;NORTH=1;WEST=2;SOUTH=3
+   class Maze(object):
+      """ Creates a maze for a turtle to solve """
+      def __init__(self):
+         self.screen=turtle.Screen()
+         self.turtle=turtle.Turtle()
+         self.screen.bgcolor('blue')
+         self.matrix=[[1 for i in range(20)] for i in range(20)]
+         self.turtle.penup()
+      def reset(self):
+         self.turtle.goto(-190,190)
+         self.matrix=[[1 for i in range(20)] for i in range(20)]
+         self.screen.bgcolor('blue')
+         self.turtle.shape('circle')
+         self.turtle.color('white')
+         self.turtle.stamp()
+         self.matrix[0][0]=0
+      def dig(self,dir):
+        if dir == EAST:
+          if self.turtle.position()[0]<190:
+            if self.turtle.position()[0]+40 > 190:
+               return self.turtle.position
+            if self.getMatrixValueAt((self.turtle.position()[0]+40,self.turtle.position()[1]))>0:
+              self.turtle.goto(self.turtle.position()[0]+20,self.turtle.position()[1])
+              self.setMatrixValueAt(self.turtle.position(),0)
+        elif dir == SOUTH:
+          if self.turtle.position()[1]>-190:
+            if self.turtle.position()[1]-40 < -190:
+              return self.turtle.position()
+            if self.getMatrixValueAt((self.turtle.position()[0],self.turtle.position()[1]-40))>0:
+              self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]-20)
+              self.setMatrixValueAt(self.turtle.position(),0)
+        elif dir ==  WEST:
+          if self.turtle.position()[0]>-190:
+            if self.turtle.position()[0]-40 < -190:
+              return self.turtle.position()
+            if self.getMatrixValueAt((self.turtle.position()[0]-40,self.turtle.position()[1]))>0:
+              self.turtle.goto(self.turtle.position()[0]-20,self.turtle.position()[1])
+              self.setMatrixValueAt(self.turtle.position(),0)
+        elif dir ==  NORTH:
+          if self.turtle.position()[1]<190:
+            if self.turtle.position()[1]+40 > 190:
+              return self.turtle.position()
+            if self.getMatrixValueAt((self.turtle.position()[0],self.turtle.position()[1]+40))>0:
+              self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]+20)
+              self.setMatrixValueAt(self.turtle.position(),0)
+        return self.turtle.position()
+      def setMatrixValueAt(self,pos,value):
+         x=int((pos[0]+200)/20)
+         y=20-int((pos[1]+200)/20)-1
+         try:
+            self.matrix[x][y]=value
+         except:
+            return False
+         oldPos=self.turtle.position()
+         self.turtle.goto(pos)
+         if value==0:
+            self.turtle.color('white')
+            self.turtle.stamp()
+         if value==1:
+            self.turtle.color('blue')
+            self.turtle.stamp()
+         self.turtle.goto(oldPos)
+         return True
+      def getMatrixValueAt(self,pos):
+         x=int((pos[0]+200)/20)
+         y=20-int((pos[1]+200)/20)-1
+	 if (pos[0]+200)/20<0 or x>19:
+	     return -1
+	 if y<0 or y>19: 
+             return -1
+         v=self.matrix[x][y]
+         return v
+      
+
+And the tests. 
+
+.. activecode:: m_test_dig2path 
+   :include: m_maze_class_2
+
+   m=Maze()
+   m.reset()
+   m.setMatrixValueAt((-190,150),0)
+   print m.turtle.position()
+   r=m.dig(SOUTH)
+   assert r==(-190,190),"got " + str(r)
+   m.setMatrixValueAt((-150,190),0)
+   r=m.dig(EAST)
+   assert r==(-190,190),"got " + str(r)
+   m.turtle.goto(-150,150)
+   r=m.dig(WEST)
+   assert r==(-150,150),"got " + str(r)
+   m.turtle.goto(-190,150)
+   r=m.dig(NORTH)
+   assert r==(-190,150),"got " + str(r)
+   m.reset()
+   r=m.dig(NORTH)
+   assert r==(-190,190),"got " + str(r)
+   m.turtle.goto(-190,-170)
+   print m.turtle.position()[1]-20
+   r=m.dig(SOUTH)
+   assert r==(-190,-170),"got " + str(r)
+
+
+Again, there could be more testing. It's a judgement call as to how much you want to test. How much energy you have and how important something is, etc. 
+
+Now it's a good idea to not reinvent the wheel! Look up algorithms for maze generation and you will find a number of web sites.  We will use the depth-first search algorithm 
+
+(https://en.wikipedia.org/wiki/Maze_generation_algorithm)
+
+1. Start at the upper left hand corner
+2. Mark that cell as visited and get a list of its neighbors.  For each neighbor, starting with a randomly selected neighbor
+	- if that neighbor hasn't been visited, remove the wall between this cell and that neighborand then recur with that neighbor as the current cell. 
+
+It might be nice to have a method called *neighbors* which returns the state of the cells neighboring the current cell. 
+
+*neighbors* should return 4 values, the neighbors in all 4 directions.  At the boundaries, the values outside the matrix should be -1 to indicate invalid locations. 
+
+A neighbor is actually 2 cells away since walls take up a cell's width. 
+
+At reset condition then, *neighbors* should return [-1,1,1,-1] for the NORTH, SOUTH, EAST, and WEST neighbors.  
+
+
+
+.. activecode:: m_test_digPath_1
+   :include: m_maze_class_2
+
+   m=Maze()
+   m.reset()
+   assert m.neighbors()==[-1,1,1,-1]
+
+Now to implement.
+
+.. activecode:: m_test_digPath_2   
+   :include: m_maze_class_2
+   
+   class NewMaze(Maze):
+      def neighbors(self):
+	p=self.turtle.position()
+	r=[]
+	r.append([(p[0],p[1]+40),m.getMatrixValueAt((p[0],p[1]+40))])
+	r.append([(p[0],p[1]-40),m.getMatrixValueAt((p[0],p[1]-40))])
+	r.append([(p[0]+40,p[1]),m.getMatrixValueAt((p[0]+40,p[1]))])
+	r.append([(p[0]-40,p[1]),m.getMatrixValueAt((p[0]-40,p[1]))])
+        return r
+
+   m=NewMaze()
+   m.reset()
+   r = m.neighbors()
+   assert (r[0][1]==-1 and r[1][1]==1 and r[2][1]==1 and r[3][1]==-1),"got " + str(r)
+   m.turtle.goto(-170,170)
+   r = m.neighbors()
+   assert (r[0][1]==-1 and r[1][1]==1 and r[2][1]==1 and r[3][1]==-1),"got " + str(r)
+   m.turtle.goto(-150,150)
+   r = m.neighbors()
+   assert (r[0][1]==1 and r[1][1]==1 and r[2][1]==1 and r[3][1]==1), "got " + str(r)
+
+Now that we have added neighbors, let's put it into our Maze class rather than just overloading it. 
+
+.. activecode:: m_maze_class_3
+
+   import turtle
+   EAST=0;NORTH=1;WEST=2;SOUTH=3
+   class Maze(object):
+      """ Creates a maze for a turtle to solve """
+      def __init__(self):
+         self.screen=turtle.Screen()
+         self.turtle=turtle.Turtle()
+         self.screen.bgcolor('blue')
+         self.matrix=[[1 for i in range(20)] for i in range(20)]
+         self.turtle.penup()
+      def reset(self):
+         self.turtle.goto(-190,190)
+         self.matrix=[[1 for i in range(20)] for i in range(20)]
+         self.screen.bgcolor('blue')
+         self.turtle.shape('circle')
+         self.turtle.color('white')
+         self.turtle.stamp()
+         self.matrix[0][0]=0
+      def neighbors(self):
+	p=self.turtle.position()
+	r=[]
+	r.append([(p[0],p[1]+40),m.getMatrixValueAt((p[0],p[1]+40))])
+	r.append([(p[0],p[1]-40),m.getMatrixValueAt((p[0],p[1]-40))])
+	r.append([(p[0]+40,p[1]),m.getMatrixValueAt((p[0]+40,p[1]))])
+	r.append([(p[0]-40,p[1]),m.getMatrixValueAt((p[0]-40,p[1]))])
+        return r
+      def dig(self,dir):
+        if dir == EAST:
+          if self.turtle.position()[0]<190:
+            if self.turtle.position()[0]+40 > 190:
+               return self.turtle.position
+            if self.getMatrixValueAt((self.turtle.position()[0]+40,self.turtle.position()[1]))>0:
+              self.turtle.goto(self.turtle.position()[0]+20,self.turtle.position()[1])
+              self.setMatrixValueAt(self.turtle.position(),0)
+        elif dir == SOUTH:
+          if self.turtle.position()[1]>-190:
+            if self.turtle.position()[1]-40 < -190:
+              return self.turtle.position()
+            if self.getMatrixValueAt((self.turtle.position()[0],self.turtle.position()[1]-40))>0:
+              self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]-20)
+              self.setMatrixValueAt(self.turtle.position(),0)
+        elif dir ==  WEST:
+          if self.turtle.position()[0]>-190:
+            if self.turtle.position()[0]-40 < -190:
+              return self.turtle.position()
+            if self.getMatrixValueAt((self.turtle.position()[0]-40,self.turtle.position()[1]))>0:
+              self.turtle.goto(self.turtle.position()[0]-20,self.turtle.position()[1])
+              self.setMatrixValueAt(self.turtle.position(),0)
+        elif dir ==  NORTH:
+          if self.turtle.position()[1]<190:
+            if self.turtle.position()[1]+40 > 190:
+              return self.turtle.position()
+            if self.getMatrixValueAt((self.turtle.position()[0],self.turtle.position()[1]+40))>0:
+              self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]+20)
+              self.setMatrixValueAt(self.turtle.position(),0)
+        return self.turtle.position()
+      def setMatrixValueAt(self,pos,value):
+         x=int((pos[0]+200)/20)
+         y=20-int((pos[1]+200)/20)-1
+         try:
+            self.matrix[x][y]=value
+         except:
+            return False
+         oldPos=self.turtle.position()
+         self.turtle.goto(pos)
+         if value==0:
+            self.turtle.color('white')
+            self.turtle.stamp()
+         if value==1:
+            self.turtle.color('blue')
+            self.turtle.stamp()
+         self.turtle.goto(oldPos)
+         return True
+      def getMatrixValueAt(self,pos):
+         x=int((pos[0]+200)/20)
+         y=20-int((pos[1]+200)/20)-1
+	 if (pos[0]+200)/20<0 or x>19:
+	     return -1
+	 if ((pos[1]+200)/20)>19.5 or ((pos[1]+200)/20)<0:
+             return -1
+         v=self.matrix[x][y]
+         return v
+
+            
+Now with these constants added we can make the code a little more readable. 
+
+.. activecode:: cnst2
+	:include: m_maze_class_3
+
+	INVALID = -1
+	EMPTY = 0
+	WALL = 1
+	VISITED = 2
+	END = 3
+
+	m=Maze()
+	m.reset()
+	r = m.neighbors()
+	assert (r[0][1]==INVALID and r[1][1]==WALL and r[2][1]==WALL and r[3][1]==INVALID),"got " + str(r)
+	m.turtle.goto(-170,170)
+	r = m.neighbors()
+	assert (r[0][1]==INVALID and r[1][1]==WALL and r[2][1]==WALL and r[3][1]==INVALID),"got " + str(r)
+	m.turtle.goto(-150,150)
+	r = m.neighbors()
+	assert (r[0][1]==WALL and r[1][1]==WALL and r[2][1]==WALL and r[3][1]==WALL), "got " + str(r)
+
+We are now ready to start implementing the algorithm.  We will call the method create().  It will be recursively calling itself but to start we will just have it run one iteration.  That way we can test it. 
+
+Our Maze class as it stands now. 
+
+.. activecode:: m_maze_class_4
+
+	INVALID = -1
+	EMPTY = 0
+	WALL = 1
+	VISITED = 2
+	END = 3
+
+	
+        import turtle
+        EAST=0;NORTH=1;WEST=2;SOUTH=3
+        class Maze(object):
+           """ Creates a maze for a turtle to solve """
+           def __init__(self):
+              self.screen=turtle.Screen()
+              self.turtle=turtle.Turtle()
+              self.screen.bgcolor('blue')
+              self.matrix=[[1 for i in range(20)] for i in range(20)]
+              self.turtle.penup()
+           def reset(self):
+              self.turtle.goto(-190,190)
+              self.matrix=[[1 for i in range(20)] for i in range(20)]
+              self.screen.bgcolor('blue')
+              self.turtle.shape('circle')
+              self.turtle.color('white')
+              self.turtle.stamp()
+              self.matrix[0][0]=0
+           def neighbors(self):
+     	p=self.turtle.position()
+     	r=[]
+     	r.append([(p[0],p[1]+40),m.getMatrixValueAt((p[0],p[1]+40))])
+     	r.append([(p[0],p[1]-40),m.getMatrixValueAt((p[0],p[1]-40))])
+     	r.append([(p[0]+40,p[1]),m.getMatrixValueAt((p[0]+40,p[1]))])
+     	r.append([(p[0]-40,p[1]),m.getMatrixValueAt((p[0]-40,p[1]))])
+             return r
+           def dig(self,dir):
+             if dir == EAST:
+               if self.turtle.position()[0]<190:
+                 if self.turtle.position()[0]+40 > 190:
+                    return self.turtle.position
+                 if self.getMatrixValueAt((self.turtle.position()[0]+40,self.turtle.position()[1]))>0:
+                   self.turtle.goto(self.turtle.position()[0]+20,self.turtle.position()[1])
+                   self.setMatrixValueAt(self.turtle.position(),0)
+             elif dir == SOUTH:
+               if self.turtle.position()[1]>-190:
+                 if self.turtle.position()[1]-40 < -190:
+                   return self.turtle.position()
+                 if self.getMatrixValueAt((self.turtle.position()[0],self.turtle.position()[1]-40))>0:
+                   self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]-20)
+                   self.setMatrixValueAt(self.turtle.position(),0)
+             elif dir ==  WEST:
+               if self.turtle.position()[0]>-190:
+                 if self.turtle.position()[0]-40 < -190:
+                   return self.turtle.position()
+                 if self.getMatrixValueAt((self.turtle.position()[0]-40,self.turtle.position()[1]))>0:
+                   self.turtle.goto(self.turtle.position()[0]-20,self.turtle.position()[1])
+                   self.setMatrixValueAt(self.turtle.position(),0)
+             elif dir ==  NORTH:
+               if self.turtle.position()[1]<190:
+                 if self.turtle.position()[1]+40 > 190:
+                   return self.turtle.position()
+                 if self.getMatrixValueAt((self.turtle.position()[0],self.turtle.position()[1]+40))>0:
+                   self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]+20)
+                   self.setMatrixValueAt(self.turtle.position(),0)
+             return self.turtle.position()
+           def setMatrixValueAt(self,pos,value):
+              x=int((pos[0]+200)/20)
+              y=20-int((pos[1]+200)/20)-1
+              try:
+                 self.matrix[x][y]=value
+              except:
+                 return False
+              oldPos=self.turtle.position()
+              self.turtle.goto(pos)
+              if value==0:
+                 self.turtle.color('white')
+                 self.turtle.stamp()
+              if value==1:
+                 self.turtle.color('blue')
+                 self.turtle.stamp()
+              self.turtle.goto(oldPos)
+              return True
+           def getMatrixValueAt(self,pos):
+              x=int((pos[0]+200)/20)
+              y=20-int((pos[1]+200)/20)-1
+     	 if (pos[0]+200)/20<0 or x>19:
+     	     return -1
+     	 if ((pos[1]+200)/20)>19.5 or ((pos[1]+200)/20)<0:
+                  return -1
+              v=self.matrix[x][y]
+              return v
+
+Let's just say for test number one, we will have the first part dug. So either it will be a path to the right or a path down.  Our test should check both directions and see if one has been successfully dug. 
+
+.. activecode:: m_test_create_1
+	:include: m_maze_class_4
+
+        def direction(pos1,pos2):
+            """ returns the direction from position 1 to position 2 """
+            if pos1[0]==pos2[0]: # x position the same, either NORTH or SOUTH
+                if pos1[1]>pos2[1]: # NORTH
+                    return NORTH
+                else:
+                    return SOUTH
+            else:
+                if pos1[0]>pos2[0]: # EAST
+                    return EAST
+                else:
+                    return WEST
+                
+
+	class Maze2(Maze):
+            def makeMaze(self):
+                n=self.neighbors()
+                nchoice=random.choose(n)
+                    if nchoice[1]==WALL:
+                        d=direction(self.turtle.position(),nn[0])
+                        self.dig(d)
+                        self.dig(d)
+                        return
+
+        m=Maze2()
+        m.reset()
+        m.makeMaze()
+        assert (m.getMatrixValueAt(-170,190)==EMPTY and m.getMatrixValueAt(-150,190)==EMPTY) or  \
+               (m.getMatrixValueAt(-190,170)==EMPTY and m.getMatrixValueAt(-190,150)==EMPTY),"got " + \
+               str(m.getMatrixValueAt(-170,190)) + "," + \
+               str(m.getMatrixValueAt(-150,190)) + "," + \
+               str(m.getMatrixValueAt(-190,170)) + "," + \
+               str(m.getMatrixValueAt(-190,150))
+        
+               
