@@ -996,7 +996,7 @@ Now we see the white square at (-150,190).  I will leave it to you to handle the
          self.turtle.goto(-190,190)
          self.matrix=[[1 for i in range(20)] for i in range(20)]
          self.screen.bgcolor('blue')
-         self.turtle.shape('circle')
+         self.turtle.shape('square')
          self.turtle.color('white')
          self.turtle.stamp()
          self.matrix[0][0]=0
@@ -1158,7 +1158,7 @@ Now that we have added neighbors, let's put it into our Maze class rather than j
          self.turtle.goto(-190,190)
          self.matrix=[[1 for i in range(20)] for i in range(20)]
          self.screen.bgcolor('blue')
-         self.turtle.shape('circle')
+         self.turtle.shape('square')
          self.turtle.color('white')
          self.turtle.stamp()
          self.matrix[0][0]=0
@@ -1280,7 +1280,7 @@ Our Maze class as it stands now.
                 self.turtle.goto(-190,190)
                 self.matrix=[[1 for i in range(20)] for i in range(20)]
                 self.screen.bgcolor('blue')
-                self.turtle.shape('circle')
+                self.turtle.shape('square')
                 self.turtle.color('white')
                 self.turtle.stamp()
                 self.matrix[0][0]=0
@@ -1366,7 +1366,7 @@ Let's just say for test number one, we will have the first part dug. So either i
                 else:
                     return SOUTH
             else:
-                if pos1[0]>pos2[0]: # EAST
+                if pos2[0]>pos1[0]: # EAST
                     return EAST
                 else:
                     return WEST

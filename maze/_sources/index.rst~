@@ -1,4 +1,4 @@
-=====================
+r=====================
 The CSI 106 Maze Project
 =====================
 
@@ -1264,87 +1264,94 @@ Our Maze class as it stands now.
 
 	
         import turtle
+        import random
         EAST=0;NORTH=1;WEST=2;SOUTH=3
         class Maze(object):
-           """ Creates a maze for a turtle to solve """
-           def __init__(self):
-              self.screen=turtle.Screen()
-              self.turtle=turtle.Turtle()
-              self.screen.bgcolor('blue')
-              self.matrix=[[1 for i in range(20)] for i in range(20)]
-              self.turtle.penup()
-           def reset(self):
-              self.turtle.goto(-190,190)
-              self.matrix=[[1 for i in range(20)] for i in range(20)]
-              self.screen.bgcolor('blue')
-              self.turtle.shape('circle')
-              self.turtle.color('white')
-              self.turtle.stamp()
-              self.matrix[0][0]=0
-           def neighbors(self):
-     	p=self.turtle.position()
-     	r=[]
-     	r.append([(p[0],p[1]+40),m.getMatrixValueAt((p[0],p[1]+40))])
-     	r.append([(p[0],p[1]-40),m.getMatrixValueAt((p[0],p[1]-40))])
-     	r.append([(p[0]+40,p[1]),m.getMatrixValueAt((p[0]+40,p[1]))])
-     	r.append([(p[0]-40,p[1]),m.getMatrixValueAt((p[0]-40,p[1]))])
-             return r
-           def dig(self,dir):
-             if dir == EAST:
-               if self.turtle.position()[0]<190:
-                 if self.turtle.position()[0]+40 > 190:
-                    return self.turtle.position
-                 if self.getMatrixValueAt((self.turtle.position()[0]+40,self.turtle.position()[1]))>0:
-                   self.turtle.goto(self.turtle.position()[0]+20,self.turtle.position()[1])
-                   self.setMatrixValueAt(self.turtle.position(),0)
-             elif dir == SOUTH:
-               if self.turtle.position()[1]>-190:
-                 if self.turtle.position()[1]-40 < -190:
-                   return self.turtle.position()
-                 if self.getMatrixValueAt((self.turtle.position()[0],self.turtle.position()[1]-40))>0:
-                   self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]-20)
-                   self.setMatrixValueAt(self.turtle.position(),0)
-             elif dir ==  WEST:
-               if self.turtle.position()[0]>-190:
-                 if self.turtle.position()[0]-40 < -190:
-                   return self.turtle.position()
-                 if self.getMatrixValueAt((self.turtle.position()[0]-40,self.turtle.position()[1]))>0:
-                   self.turtle.goto(self.turtle.position()[0]-20,self.turtle.position()[1])
-                   self.setMatrixValueAt(self.turtle.position(),0)
-             elif dir ==  NORTH:
-               if self.turtle.position()[1]<190:
-                 if self.turtle.position()[1]+40 > 190:
-                   return self.turtle.position()
-                 if self.getMatrixValueAt((self.turtle.position()[0],self.turtle.position()[1]+40))>0:
-                   self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]+20)
-                   self.setMatrixValueAt(self.turtle.position(),0)
-             return self.turtle.position()
-           def setMatrixValueAt(self,pos,value):
-              x=int((pos[0]+200)/20)
-              y=20-int((pos[1]+200)/20)-1
-              try:
-                 self.matrix[x][y]=value
-              except:
-                 return False
-              oldPos=self.turtle.position()
-              self.turtle.goto(pos)
-              if value==0:
-                 self.turtle.color('white')
-                 self.turtle.stamp()
-              if value==1:
-                 self.turtle.color('blue')
-                 self.turtle.stamp()
-              self.turtle.goto(oldPos)
-              return True
-           def getMatrixValueAt(self,pos):
-              x=int((pos[0]+200)/20)
-              y=20-int((pos[1]+200)/20)-1
-     	 if (pos[0]+200)/20<0 or x>19:
-     	     return -1
-     	 if ((pos[1]+200)/20)>19.5 or ((pos[1]+200)/20)<0:
-                  return -1
-              v=self.matrix[x][y]
-              return v
+            """ Creates a maze for a turtle to solve """
+
+            def __init__(self):
+                self.screen=turtle.Screen()
+                self.turtle=turtle.Turtle()
+                self.screen.bgcolor('blue')
+                self.matrix=[[1 for i in range(20)] for i in range(20)]
+                self.turtle.penup()
+
+            def reset(self):
+                self.turtle.goto(-190,190)
+                self.matrix=[[1 for i in range(20)] for i in range(20)]
+                self.screen.bgcolor('blue')
+                self.turtle.shape('circle')
+                self.turtle.color('white')
+                self.turtle.stamp()
+                self.matrix[0][0]=0
+
+            def neighbors(self):
+                p=self.turtle.position()
+                r=[]
+                r.append([(p[0],p[1]+40),m.getMatrixValueAt((p[0],p[1]+40))])
+                r.append([(p[0],p[1]-40),m.getMatrixValueAt((p[0],p[1]-40))])
+                r.append([(p[0]+40,p[1]),m.getMatrixValueAt((p[0]+40,p[1]))])
+                r.append([(p[0]-40,p[1]),m.getMatrixValueAt((p[0]-40,p[1]))])
+                return r
+
+            def dig(self,dir):
+                if dir == EAST:
+                    if self.turtle.position()[0]<190:
+                        if self.turtle.position()[0]+40 > 190:
+                            return self.turtle.position
+                    if self.getMatrixValueAt((self.turtle.position()[0]+40,self.turtle.position()[1]))>0:
+                        self.turtle.goto(self.turtle.position()[0]+20,self.turtle.position()[1])
+                        self.setMatrixValueAt(self.turtle.position(),0)
+                elif dir == SOUTH:
+                    if self.turtle.position()[1]>-190:
+                        if self.turtle.position()[1]-40 < -190:
+                            return self.turtle.position()
+                    if self.getMatrixValueAt((self.turtle.position()[0],self.turtle.position()[1]-40))>0:
+                        self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]-20)
+                        self.setMatrixValueAt(self.turtle.position(),0)
+                elif dir ==  WEST:
+                    if self.turtle.position()[0]>-190:
+                        if self.turtle.position()[0]-40 < -190:
+                            return self.turtle.position()
+                    if self.getMatrixValueAt((self.turtle.position()[0]-40,self.turtle.position()[1]))>0:
+                        self.turtle.goto(self.turtle.position()[0]-20,self.turtle.position()[1])
+                        self.setMatrixValueAt(self.turtle.position(),0)
+                elif dir ==  NORTH:
+                    if self.turtle.position()[1]<190:
+                        if self.turtle.position()[1]+40 > 190:
+                            return self.turtle.position()
+                    if self.getMatrixValueAt((self.turtle.position()[0],self.turtle.position()[1]+40))>0:
+                        self.turtle.goto(self.turtle.position()[0],self.turtle.position()[1]+20)
+                        self.setMatrixValueAt(self.turtle.position(),0)
+                return self.turtle.position()
+
+            def setMatrixValueAt(self,pos,value):
+                x=int((pos[0]+200)/20)
+                y=20-int((pos[1]+200)/20)-1
+                try:
+                    self.matrix[x][y]=value
+                except:
+                    return False
+                oldPos=self.turtle.position()
+                self.turtle.goto(pos)
+                if value==0:
+                    self.turtle.color('white')
+                    self.turtle.stamp()
+                if value==1:
+                    self.turtle.color('blue')
+                    self.turtle.stamp()
+                self.turtle.goto(oldPos)
+                return True
+
+            def getMatrixValueAt(self,pos):
+                x=int((pos[0]+200)/20)
+                y=20-int((pos[1]+200)/20)-1
+                if (pos[0]+200)/20<0 or x>19:
+                    return -1
+                if ((pos[1]+200)/20)>19.5 or ((pos[1]+200)/20)<0:
+                    return -1
+                v=self.matrix[x][y]
+                return v
 
 Let's just say for test number one, we will have the first part dug. So either it will be a path to the right or a path down.  Our test should check both directions and see if one has been successfully dug. 
 
@@ -1365,12 +1372,14 @@ Let's just say for test number one, we will have the first part dug. So either i
                     return WEST
                 
 
-	class Maze2(Maze):
+        class Maze2(Maze):
             def makeMaze(self):
                 n=self.neighbors()
-                nchoice=random.choose(n)
+                while len(n)>0:
+                    nchoice=random.choice(n)
+                    n.remove(nchoice)
                     if nchoice[1]==WALL:
-                        d=direction(self.turtle.position(),nn[0])
+                        d=direction(self.turtle.position(),nchoice[0])
                         self.dig(d)
                         self.dig(d)
                         return
@@ -1378,11 +1387,11 @@ Let's just say for test number one, we will have the first part dug. So either i
         m=Maze2()
         m.reset()
         m.makeMaze()
-        assert (m.getMatrixValueAt(-170,190)==EMPTY and m.getMatrixValueAt(-150,190)==EMPTY) or  \
-               (m.getMatrixValueAt(-190,170)==EMPTY and m.getMatrixValueAt(-190,150)==EMPTY),"got " + \
-               str(m.getMatrixValueAt(-170,190)) + "," + \
-               str(m.getMatrixValueAt(-150,190)) + "," + \
-               str(m.getMatrixValueAt(-190,170)) + "," + \
-               str(m.getMatrixValueAt(-190,150))
+        assert ((m.getMatrixValueAt((-170,190))==EMPTY and m.getMatrixValueAt((-150,190))==EMPTY) or  \
+               (m.getMatrixValueAt((-190,170))==EMPTY and m.getMatrixValueAt((-190,150))==EMPTY)),"got " + \
+               str(m.getMatrixValueAt((-170,190))) + "," + \
+               str(m.getMatrixValueAt((-150,190))) + "," + \
+               str(m.getMatrixValueAt((-190,170))) + "," + \
+               str(m.getMatrixValueAt((-190,150)))
         
                
