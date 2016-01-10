@@ -227,6 +227,7 @@ Since we are starting from the upper left hand corner, matrix[0][0] should be 0 
 
    m=Maze()
    m.reset()
+   assert m.matrix[0][0]==0
    assert m.turtle.pos()==(-190,190)
 
 Make it pass now. 
@@ -235,7 +236,8 @@ Make it pass now.
 
    import turtle
    class Maze(object):
-      """ Solves a maze """
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. """
       def __init__(self):
          self.screen=turtle.Screen()
       	 self.turtle=turtle.Turtle()
@@ -253,11 +255,12 @@ Make it pass now.
 
    m=Maze()
    m.reset()
-   assert m.turtle.pos()==(-190,190)
    assert m.matrix[0][0]==0
-   assert m.turtle.towards(190,190)&360==0
+   assert m.turtle.pos()==(-190,190)
 
-Now we are at a point where we can consider the *dig* function.  I imagine m.dig(EAST) will move one square to the East on the screen. But what is EAST and why and I using capitals?  In programming it is common to map words to constants and when we do that we often use all capitals to indicate that's what is going on. The way we do this in python is simple. 
+I think of the turtle as sort-of digging it's way through the walls to make the maze. 
+
+We are at a point where we can consider the *dig* function.  I imagine m.dig(EAST) will move the turtle one square to the East on the screen. But what is EAST and why and I using capitals?  In programming it is common to map words to constants and when we do that we often use all capitals to indicate that's what is going on. The way we do this in python is simple. 
 
 .. activecode:: m_const
 
@@ -273,7 +276,10 @@ If we do this, it makes it easier since we don't have to remember 0 is East. So 
    import turtle
    EAST=0;NORTH=1;WEST=2;SOUTH=3
    class Maze(object):
-      """ Solves a maze """
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. 
+          reset() puts the turtle in the upper left hand corner.
+      """
       def __init__(self):
          self.screen=turtle.Screen()
       	 self.turtle=turtle.Turtle()
@@ -288,23 +294,51 @@ If we do this, it makes it easier since we don't have to remember 0 is East. So 
          self.turtle.color('white')
          self.turtle.stamp()
          self.matrix[0][0]=0
-      def dig(self):
+      def dig(self,direction):
          pass
 
    m=Maze()
    m.reset()
-   assert m.dig(EAST)==(-170,190)
+   r=m.dig(EAST)
+   assert r==(-170,190), "got " + str(r)
 
 To create a passing test, we need to add the code for *dig*. One thing that becomes very obvious is that we need to map the position of the turtle into the matrix locations because we can't use the turtle position to index the matrix directly. What would be convenient is to be able to access the matrix with the turtle position.  Something like 
 
 .. activecode:: m_access_matrix
 
-  value=m.getMatrixValueAt(m.turtle.position) 
-  m.setMatrixValueAt(m.turtle.position,value)
+   import turtle
+   EAST=0;NORTH=1;WEST=2;SOUTH=3
+   class Maze(object):
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. 
+          reset() puts the turtle in the upper left hand corner.
+      """
+      def __init__(self):
+         self.screen=turtle.Screen()
+      	 self.turtle=turtle.Turtle()
+      	 self.screen.bgcolor('blue')
+	 self.matrix=[[1 for i in range(20)] for i in range(20)]
+	 self.turtle.penup()
+      def reset(self):
+         self.turtle.goto(-190,190)
+	 self.matrix=[[1 for i in range(20)] for i in range(20)]
+	 self.screen.bgcolor('blue')
+         self.turtle.shape('square')
+         self.turtle.color('white')
+         self.turtle.stamp()
+         self.matrix[0][0]=0
+      def dig(self,direction):
+         pass
+
+   m=Maze()
+   m.reset()
+   value=m.getMatrixValueAt(m.turtle.position) 
+   m.setMatrixValueAt(m.turtle.position,value)
 
 At reset conditions, the matrix value would be 0 at [0][0] because we have a space there.  Our test should be 
 
 .. activecode:: m_test_map
+
 
   m.reset()
   assert m.getMatrixValueAt(m.turtle.position)==0
@@ -316,7 +350,11 @@ Make it pass.
    import turtle
    EAST=0;NORTH=1;WEST=2;SOUTH=3
    class Maze(object):
-      """ Solves a maze """
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. 
+          reset() puts the turtle in the upper left hand corner.
+          getMatrixValueAt(position) returns the matrix value at the tuple position
+      """
       def __init__(self):
          self.screen=turtle.Screen()
       	 self.turtle=turtle.Turtle()
@@ -341,8 +379,7 @@ Make it pass.
 
    m=Maze()
    m.reset()
-   m.reset()
-   assert m.getMatrixValueAt(m.turtle.position)==0
+   assert m.getMatrixValueAt(m.turtle.position())==0
    # we are putting this test on hold for now
    # assert m.dig(EAST)==(-170,190)
 
@@ -354,7 +391,11 @@ Now for setMatrixValueAt(pos).
    import turtle
    EAST=0;NORTH=1;WEST=2;SOUTH=3
    class Maze(object):
-      """ Solves a maze """
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. 
+          reset() puts the turtle in the upper left hand corner.
+          getMatrixValueAt(position) returns the matrix value at the tuple position
+      """
       def __init__(self):
          self.screen=turtle.Screen()
       	 self.turtle=turtle.Turtle()
@@ -403,7 +444,11 @@ Nice! Now we can just use our turtle position to set the matrix. But after we se
    import turtle
    EAST=0;NORTH=1;WEST=2;SOUTH=3
    class Maze(object):
-      """ Solves a maze """
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. 
+          reset() puts the turtle in the upper left hand corner.
+          getMatrixValueAt(position) returns the matrix value at the tuple position
+      """
       def __init__(self):
          self.screen=turtle.Screen()
       	 self.turtle=turtle.Turtle()
@@ -456,7 +501,11 @@ Now we can map turtle position to matrix element. Remember we are trying to impl
    import turtle
    EAST=0;NORTH=1;WEST=2;SOUTH=3
    class Maze(object):
-      """ Solves a maze """
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. 
+          reset() puts the turtle in the upper left hand corner.
+          getMatrixValueAt(position) returns the matrix value at the tuple position
+      """
       def __init__(self):
          self.screen=turtle.Screen()
       	 self.turtle=turtle.Turtle()
@@ -509,6 +558,11 @@ Let's add our test and code to make it pass.
    import turtle
    EAST=0;NORTH=1;WEST=2;SOUTH=3
    class Maze(object):
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. 
+          reset() puts the turtle in the upper left hand corner.
+          getMatrixValueAt(position) returns the matrix value at the tuple position
+      """
       """ Solves a maze """
       def __init__(self):
          self.screen=turtle.Screen()
@@ -565,6 +619,11 @@ Now let's do a reset and dig south.  I'm showing both the test and the code to m
    import turtle
    EAST=0;NORTH=1;WEST=2;SOUTH=3
    class Maze(object):
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. 
+          reset() puts the turtle in the upper left hand corner.
+          getMatrixValueAt(position) returns the matrix value at the tuple position
+      """
       """ Solves a maze """
       def __init__(self):
          self.screen=turtle.Screen()
@@ -634,6 +693,11 @@ Well this test actually passed without us doing anything but it's just a fluke b
    import turtle
    EAST=0;NORTH=1;WEST=2;SOUTH=3
    class Maze(object):
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. 
+          reset() puts the turtle in the upper left hand corner.
+          getMatrixValueAt(position) returns the matrix value at the tuple position
+      """
       """ Solves a maze """
       def __init__(self):
          self.screen=turtle.Screen()
@@ -695,6 +759,11 @@ Of course we can see how ignoring WEST was just a fluke here. Sometimes writing 
    import turtle
    EAST=0;NORTH=1;WEST=2;SOUTH=3
    class Maze(object):
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. 
+          reset() puts the turtle in the upper left hand corner.
+          getMatrixValueAt(position) returns the matrix value at the tuple position
+      """
       """ Solves a maze """
       def __init__(self):
          self.screen=turtle.Screen()
@@ -762,6 +831,11 @@ We have dug ourselves a nice square. One last direction to test, NORTH.  Here's 
    import turtle
    EAST=0;NORTH=1;WEST=2;SOUTH=3
    class Maze(object):
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. 
+          reset() puts the turtle in the upper left hand corner.
+          getMatrixValueAt(position) returns the matrix value at the tuple position
+      """
       """ Solves a maze """
       def __init__(self):
          self.screen=turtle.Screen()
@@ -833,7 +907,11 @@ Here is our Maze class.
    import turtle
    EAST=0;NORTH=1;WEST=2;SOUTH=3
    class Maze(object):
-      """ Solves a maze """
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. 
+          reset() puts the turtle in the upper left hand corner.
+          getMatrixValueAt(position) returns the matrix value at the tuple position
+      """
       def __init__(self):
          self.screen=turtle.Screen()
       	 self.turtle=turtle.Turtle()
@@ -901,6 +979,11 @@ How do we test this? If we make a space at location m.matrix[0][2] then we shoul
    :include: m_maze_class
 
    class Maze2(Maze):
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. 
+          reset() puts the turtle in the upper left hand corner.
+          getMatrixValueAt(position) returns the matrix value at the tuple position
+      """
       def dig(self,dir):
 	if dir == EAST:
 	  if self.turtle.position()[0]<190:
@@ -935,6 +1018,11 @@ This passes but why don't we see the white square appearing at location (-150,19
    :include: m_maze_class
 
    class Maze2(Maze):
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. 
+          reset() puts the turtle in the upper left hand corner.
+          getMatrixValueAt(position) returns the matrix value at the tuple position
+      """
       def dig(self,dir):
 	if dir == EAST:
 	  if self.turtle.position()[0]<190:
@@ -987,7 +1075,11 @@ Now we see the white square at (-150,190).  I will leave it to you to handle the
    import turtle
    EAST=0;NORTH=1;WEST=2;SOUTH=3
    class Maze(object):
-      """ Creates a maze for a turtle to solve """
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. 
+          reset() puts the turtle in the upper left hand corner.
+          getMatrixValueAt(position) returns the matrix value at the tuple position
+      """
       def __init__(self):
          self.screen=turtle.Screen()
          self.turtle=turtle.Turtle()
@@ -1149,7 +1241,11 @@ Now that we have added neighbors, let's put it into our Maze class rather than j
    import turtle
    EAST=0;NORTH=1;WEST=2;SOUTH=3
    class Maze(object):
-      """ Creates a maze for a turtle to solve """
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. 
+          reset() puts the turtle in the upper left hand corner.
+          getMatrixValueAt(position) returns the matrix value at the tuple position
+      """
       def __init__(self):
          self.screen=turtle.Screen()
          self.turtle=turtle.Turtle()
@@ -1269,7 +1365,11 @@ Our Maze class as it stands now.
         import random
         EAST=0;NORTH=1;WEST=2;SOUTH=3
         class Maze(object):
-            """ Creates a maze for a turtle to solve """
+	    """ Solves a maze using a 20x20 matrix as an internal model
+		     and a 400x400 screen graphical view. 
+		  reset() puts the turtle in the upper left hand corner.
+		  getMatrixValueAt(position) returns the matrix value at the tuple position
+	    """
 
             def __init__(self):
                 self.screen=turtle.Screen()
@@ -1418,17 +1518,21 @@ Now the algorithm says we should recur what we just did. So let's try.
 
         class Maze2(Maze):
             def makeMaze(self):
-                n=self.neighbors()
+                n=self.neighbors() # get the 4 neighbors. 
+                # save the position of the turtle
+                # we need to start there for each neighbors
                 oldpos=self.turtle.position()
                 while len(n)>0:
-                    nchoice=random.choice(n)
-                    n.remove(nchoice)
-                    self.turtle.goto(oldpos)
-                    if self.getMatrixValueAt(nchoice[0])==WALL:
+                    nchoice=random.choice(n) 
+                    n.remove(nchoice) # remove so eventually the length will be 0
+                    self.turtle.goto(oldpos) 
+                    # we must use getMatrixValueAt rather than the value in nchoice
+                    # because it may have changed from a prior recursive call.
+                    if self.getMatrixValueAt(nchoice[0])==WALL: 
                         d=direction(self.turtle.position(),nchoice[0])
-                        self.dig(d)
-                        self.dig(d)
-			self.makeMaze()
+                        self.dig(d) # this removes the wall
+                        self.dig(d) # this is the next occupied cell. 
+			self.makeMaze() # recursively do it again from the new cell
 	
 
 	import sys
@@ -1470,7 +1574,11 @@ Now let's put it all together in our Maze model
 	INVALID = -1; EMPTY = 0; WALL = 1; VISITED = 2; END = 3
         EAST=0;NORTH=1;WEST=2;SOUTH=3
         class Maze(object):
-            """ Creates a maze for a turtle to solve """
+	    """ Solves a maze using a 20x20 matrix as an internal model
+		     and a 400x400 screen graphical view. 
+		  reset() puts the turtle in the upper left hand corner.
+		  getMatrixValueAt(position) returns the matrix value at the tuple position
+	    """
             
             def __init__(self):
                 self.screen=turtle.Screen()
@@ -1575,9 +1683,9 @@ Now let's put it all together in our Maze model
         
         m=Maze()
         m.makeMaze()
-
-The next part is just putting the yellow square somewhere that you want to be the end of the maze.
-Probably somewhere in the lower right hand corner.
+	m.turtle.goto(170,-170)
+	m.turtle.color("yellow")
+	m.turtle.stamp()
 
 I'll leave that for you.
 
