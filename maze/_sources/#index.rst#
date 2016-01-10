@@ -70,7 +70,7 @@ module to learn the features available to you.
 The screen is created with the following command
 
 .. activecode:: m_w_1
-
+   
    import turtle
    wn = turtle.Screen()
    wn.bgcolor("blue")

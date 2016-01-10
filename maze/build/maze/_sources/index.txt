@@ -49,23 +49,27 @@ Much better.
 Now let's make this class exist. 
 
 .. activecode:: m_class_1
- 
-   class Maze(object):
-      """ Creates a maze. (We don't know anything more than that yet.) """
-      def __init__(self):
-         pass
 
-   condition="GREEN"
-   try:
-      m=Maze()
-   except:
-       condition="RED"
-   print "Condition: " + condition
+    # 
+    class Maze(object):
+       """ Creates a maze. (We don't know anything more than that yet.) """
+       def __init__(self):
+          pass
+
+       condition="GREEN"
+       try:
+          m=Maze()
+       except:
+          condition="RED"
+       print "Condition: " + condition
 
 
-We will use the turtle module to make our maze. The screen is created with the following command
+We will use the turtle module to make our maze. You may need to read up a little on the turtle
+module to learn the features available to you.
 
-.. activecode:: m_w_1
+The screen is created with the following command
+
+.. codelens:: m_w_1
 
    import turtle
    wn = turtle.Screen()
@@ -93,6 +97,7 @@ Now add the screen.
 
 .. activecode:: m_add_screen
 
+   #
    import turtle
    class Maze(object):
       """ Solves a maze """
@@ -232,13 +237,13 @@ This only checks for the height of our matrix but it's good enough for now. You 
    import turtle
    SIZE=400
    class Maze(object):
-   	 """ Solves a maze using a 20x20 matrix (SIZE/20xSIZE/20) as an internal model
-             and a 400x400 screen graphical view (SIZExSIZE). """
-         def __init__(self):
-      	    self.screen=turtle.Screen()
-      	    self.turtle=turtle.Turtle()
-      	    self.screen.bgcolor('blue')
-	    self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. """
+      def __init__(self):
+         self.screen=turtle.Screen()
+         self.turtle=turtle.Turtle()
+      	 self.screen.bgcolor('blue')
+	 self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
 
    m=Maze()
    assert len(m.matrix)==SIZE/20
@@ -252,16 +257,17 @@ Since we are starting from the upper left hand corner, matrix[0][0] should be 0 
 
 .. activecode:: m_reset_test
 
+   #
    import turtle
    SIZE=400
    class Maze(object):
-   	 """ Solves a maze using a 20x20 matrix (SIZE/20xSIZE/20) as an internal model
-             and a 400x400 screen graphical view (SIZExSIZE). """
-         def __init__(self):
-      	    self.screen=turtle.Screen()
-      	    self.turtle=turtle.Turtle()
-      	    self.screen.bgcolor('blue')
-	    self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. """
+      def __init__(self):
+   	 self.screen=turtle.Screen()
+      	 self.turtle=turtle.Turtle()
+      	 self.screen.bgcolor('blue')
+	 self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
 
 
    m=Maze()

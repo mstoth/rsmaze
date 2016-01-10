@@ -16,7 +16,12 @@ The CSI 106 Maze Project
 SECTION 1: Introduction
 :::::::::::::::::::::::
 
-We will be first creating a maze using test driven development techniques.  Each step of the way will begin with a test.  To start, we get really stupid.  The first thing we need to test for is a Maze class.  Of course there is no Maze class.  We haven't written it yet.  But we are stupid.  Let's test for it.
+We will be first creating a maze using test driven development techniques.  Each step of the way will begin with a test.  
+As you follow along with this example, you can execute the code by clicking on the run buttons. You can also change the code and rerun any of them if you want to experiment or find out more. 
+
+
+
+The first thing we need to test for is a Maze class.  Of course there is no Maze class.  We haven't written it yet.  But we are stupid.  Let's test for it.
 
 
 .. activecode:: m_test_1
@@ -88,6 +93,7 @@ Now add the screen.
 
 .. activecode:: m_add_screen
 
+   #
    import turtle
    class Maze(object):
       """ Solves a maze """
@@ -139,8 +145,33 @@ We will first be constructing our maze using the colors blue for a wall, white f
 
    m=Maze()
    assert m.screen.bgcolor()=='blue'
+   assert m.screen.window_width()==400
+   assert m.screen.window_height()==400
    
+We also check the height and width of our screeen to be safe. 
 You should now see the blue screen. (Note that I skipped the RED to GREEN and added both the test and the code) 
+
+So far we have discussed the RED and GREEN condition. It's now time to think about YELLOW.  This is the refactoring stage. Refactoring is when you modify your code to improve it without changing its function or behavior.  Unlike this example, the tests we write persist through each iteration of your development cycle (RED-GREEN-YELLOW) To save space I leave out the prior tests.  Normally you want all your tests to run all the time.  
+
+Anticipating change in your program is a good thing.  If you can see ways to generalize parameters, it usually helps to make your code more flexible for future changes.  For instance, notice how we are using the number 400.  Hard-coded numbers like that are a warning sign.  Usually you are helped by making that value a parameter such as "SIZE" for instance. 
+
+.. activecode:: m_refactor_1
+
+   import turtle
+   SIZE=400
+   class Maze(object):
+      """ Solves a maze """
+      def __init__(self):
+         self.screen=turtle.Screen()
+	 self.turtle=turtle.Turtle()
+	 self.screen.bgcolor('blue')
+
+   m=Maze()
+   assert m.screen.bgcolor()=='blue'
+   assert m.screen.window_width()==SIZE
+   assert m.screen.window_height()==SIZE
+
+This is a very small refactoring example. We will see others as we continue. 
 
 Now we need to think about how we will represent our maze inside the program. The screen is the interface to people but internally we need to make decisions based on the current state of the maze.
 
@@ -161,7 +192,7 @@ The default size for the square is 20x20. So we can have 20 rows and 20 columns 
    t.stamp()
 
 
-Here's how we would draw a path along the top of the screen. 
+Here's how we would draw a path along the top of the screen. Feel free to make changes to this code and experiment so you feel like you understand how the turtle works. 
 
 .. activecode:: m_draw_path_1
 
@@ -182,6 +213,7 @@ This is all useful for learning about the tools we have.  Let's create a test fo
 .. activecode:: m_test_matrix
 
    import turtle
+   SIZE=400
    class Maze(object):
    	 """ Solves a maze """
          def __init__(self):
@@ -190,24 +222,30 @@ This is all useful for learning about the tools we have.  Let's create a test fo
       	 self.screen.bgcolor('blue')
 
    m=Maze()
-   assert len(m.matrix)==20
+   assert len(m.matrix)==SIZE/20
+
+Notice how we now use the parameter SIZE in our code. 
 
 This only checks for the height of our matrix but it's good enough for now. You should weigh how much time you want to spend writing a test vs how risky is the failure.  To make this test pass we want to add a matrix to our maze. Here's the code that does that. Notice that all the values in the matrix are 1 which corresponds to everything being a wall. That's an arbitrary decision I just made. Seems like 0 for no wall and 1 for a wall makes sense. 
 
 .. activecode:: m_add_matrix
 
    import turtle
+   SIZE=400
    class Maze(object):
-   	 """ Solves a maze using a 20x20 matrix as an internal model
+      """ Solves a maze using a 20x20 matrix as an internal model
              and a 400x400 screen graphical view. """
-         def __init__(self):
-      	    self.screen=turtle.Screen()
-      	    self.turtle=turtle.Turtle()
-      	    self.screen.bgcolor('blue')
-	    self.matrix=[[1 for i in range(20)] for i in range(20)]
+      def __init__(self):
+         self.screen=turtle.Screen()
+         self.turtle=turtle.Turtle()
+      	 self.screen.bgcolor('blue')
+	 self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
 
    m=Maze()
-   assert len(m.matrix)==20
+   assert len(m.matrix)==SIZE/20
+   assert m.screen.window_width()==SIZE,"window width not correct."
+   assert m.screen.window_height()==SIZE,"window height not correct." 
+
 
 We will start our path from the upper left hand corner, (another arbitrary choice). Let's imagine we are digging our path through the walls. When we dig into the space, we turn a 1 in our matrix to a 0.  This indicates we have an empty space at that location.  It's easy to then consider a function called *dig* where we pass in a direction and the turtle will dig in that direction one space if possible.  
 
@@ -215,26 +253,30 @@ Since we are starting from the upper left hand corner, matrix[0][0] should be 0 
 
 .. activecode:: m_reset_test
 
+   #
    import turtle
+   SIZE=400
    class Maze(object):
-   	 """ Solves a maze using a 20x20 matrix as an internal model
+      """ Solves a maze using a 20x20 matrix as an internal model
              and a 400x400 screen graphical view. """
-         def __init__(self):
-      	    self.screen=turtle.Screen()
-      	    self.turtle=turtle.Turtle()
-      	    self.screen.bgcolor('blue')
-	    self.matrix=[[1 for i in range(20)] for i in range(20)]
+      def __init__(self):
+   	 self.screen=turtle.Screen()
+      	 self.turtle=turtle.Turtle()
+      	 self.screen.bgcolor('blue')
+	 self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
+
 
    m=Maze()
    m.reset()
    assert m.matrix[0][0]==0
-   assert m.turtle.pos()==(-190,190)
+   assert m.turtle.pos()==(-(SIZE/20-10),SIZE/20-10)
 
 Make it pass now. 
 
 .. activecode:: m_reset_pass
 
    import turtle
+   SIZE=400
    class Maze(object):
       """ Solves a maze using a 20x20 matrix as an internal model
              and a 400x400 screen graphical view. """
@@ -242,11 +284,12 @@ Make it pass now.
          self.screen=turtle.Screen()
       	 self.turtle=turtle.Turtle()
       	 self.screen.bgcolor('blue')
-	 self.matrix=[[1 for i in range(20)] for i in range(20)]
+         self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
 	 self.turtle.penup()
+
       def reset(self):
-         self.turtle.goto(-190,190)
-	 self.matrix=[[1 for i in range(20)] for i in range(20)]
+         self.turtle.goto(-(SIZE/20-10),SIZE/20-10)
+         self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
 	 self.screen.bgcolor('blue')
          self.turtle.shape('square')
          self.turtle.color('white')
@@ -256,7 +299,40 @@ Make it pass now.
    m=Maze()
    m.reset()
    assert m.matrix[0][0]==0
-   assert m.turtle.pos()==(-190,190)
+   assert m.turtle.pos()==(-(SIZE/20-10),SIZE/20-10)
+
+Time to refactor. How can we improve on this code?  We have some duplicate code in there.  Let's get rid of it.
+
+
+.. activecode:: m_dup_fix
+
+   import turtle
+   SIZE=400
+   class Maze(object):
+      """ Solves a maze using a 20x20 matrix as an internal model
+             and a 400x400 screen graphical view. """
+      def __init__(self):
+         self.screen=turtle.Screen()
+      	 self.turtle=turtle.Turtle()
+         self.reset()
+
+      def reset(self):
+	 self.turtle.penup()
+         self.turtle.goto(-(SIZE/20-10),(SIZE/20-10))
+         self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
+         self.screen.resetscreen("blue")
+         self.turtle.shape('square')
+         self.turtle.color('white')
+         self.turtle.stamp()
+         self.matrix[0][0]=0
+
+   m=Maze()
+   m.reset()
+   assert m.matrix[0][0]==0
+   assert m.turtle.pos()==(-(SIZE/20-10),SIZE/20-10)
+
+
+
 
 I think of the turtle as sort-of digging it's way through the walls to make the maze. 
 
@@ -1687,7 +1763,6 @@ Now let's put it all together in our Maze model
 	m.turtle.color("yellow")
 	m.turtle.stamp()
 
-I'll leave that for you.
 
 
 Next part: Part 2
