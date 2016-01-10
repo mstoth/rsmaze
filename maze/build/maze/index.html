@@ -297,7 +297,9 @@
 <h1>The CSI 106 Maze Project<a class="headerlink" href="#the-csi-106-maze-project" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="section-1-introduction">
 <h2>SECTION 1: Introduction<a class="headerlink" href="#section-1-introduction" title="Permalink to this headline">¶</a></h2>
-<p>We will be first creating a maze using test driven development techniques.  Each step of the way will begin with a test.  To start, we get really stupid.  The first thing we need to test for is a Maze class.  Of course there is no Maze class.  We haven&#8217;t written it yet.  But we are stupid.  Let&#8217;s test for it.</p>
+<p>We will be first creating a maze using test driven development techniques.  Each step of the way will begin with a test.
+As you follow along with this example, you can execute the code by clicking on the run buttons. You can also change the code and rerun any of them if you want to experiment or find out more.</p>
+<p>The first thing we need to test for is a Maze class.  Of course there is no Maze class.  We haven&#8217;t written it yet.  But we are stupid.  Let&#8217;s test for it.</p>
 
 <textarea data-component="activecode" id=m_test_1 data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
 m=Maze() # see if a Maze class exists.
@@ -402,8 +404,30 @@ class Maze(object):
 
 m=Maze()
 assert m.screen.bgcolor()=='blue'
+assert m.screen.window_width()==400
+assert m.screen.window_height()==400
 </textarea>
-<p>You should now see the blue screen. (Note that I skipped the RED to GREEN and added both the test and the code)</p>
+<p>We also check the height and width of our screeen to be safe.
+You should now see the blue screen. (Note that I skipped the RED to GREEN and added both the test and the code)</p>
+<p>So far we have discussed the RED and GREEN condition. It&#8217;s now time to think about YELLOW.  This is the refactoring stage. Refactoring is when you modify your code to improve it without changing its function or behavior.  Unlike this example, the tests we write persist through each iteration of your development cycle (RED-GREEN-YELLOW) To save space I leave out the prior tests.  Normally you want all your tests to run all the time.</p>
+<p>Anticipating change in your program is a good thing.  If you can see ways to generalize parameters, it usually helps to make your code more flexible for future changes.  For instance, notice how we are using the number 400.  Hard-coded numbers like that are a warning sign.  Usually you are helped by making that value a parameter such as &#8220;SIZE&#8221; for instance.</p>
+
+<textarea data-component="activecode" id=m_refactor_1 data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+import turtle
+SIZE=400
+class Maze(object):
+   """ Solves a maze """
+   def __init__(self):
+      self.screen=turtle.Screen()
+      self.turtle=turtle.Turtle()
+      self.screen.bgcolor('blue')
+
+m=Maze()
+assert m.screen.bgcolor()=='blue'
+assert m.screen.window_width()==SIZE
+assert m.screen.window_height()==SIZE
+</textarea>
+<p>This is a very small refactoring example. We will see others as we continue.</p>
 <p>Now we need to think about how we will represent our maze inside the program. The screen is the interface to people but internally we need to make decisions based on the current state of the maze.</p>
 <p>I choose a matrix as the data type best suited. Each item in the matrix corresponds to a location in the maze. The size of the screen by default is 400x400.  We will keep the default for now.  The way we will draw on the screen is by using the stamp method in the turtle module and a square for the shape. (look into the documentation on the turtle module for more clarification on those methods.)</p>
 <p>The default size for the square is 20x20. So we can have 20 rows and 20 columns in our matrix since the size of the screen is 400x400.  The origin is in the middle. so -190,190 corresponds to the [0][0] location of the matrix. Let&#8217;s clarify our thinking a little by writing code to draw a white square in the upper left hand corner.</p>
@@ -419,7 +443,7 @@ t.shape('square')
 t.color('white')
 t.stamp()
 </textarea>
-<p>Here&#8217;s how we would draw a path along the top of the screen.</p>
+<p>Here&#8217;s how we would draw a path along the top of the screen. Feel free to make changes to this code and experiment so you feel like you understand how the turtle works.</p>
 
 <textarea data-component="activecode" id=m_draw_path_1 data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
 import turtle
@@ -437,6 +461,7 @@ for x in range(-190,210,20):
 
 <textarea data-component="activecode" id=m_test_matrix data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
 import turtle
+SIZE=400
 class Maze(object):
       """ Solves a maze """
       def __init__(self):
@@ -445,47 +470,54 @@ class Maze(object):
       self.screen.bgcolor('blue')
 
 m=Maze()
-assert len(m.matrix)==20
+assert len(m.matrix)==SIZE/20
 </textarea>
+<p>Notice how we now use the parameter SIZE in our code.</p>
 <p>This only checks for the height of our matrix but it&#8217;s good enough for now. You should weigh how much time you want to spend writing a test vs how risky is the failure.  To make this test pass we want to add a matrix to our maze. Here&#8217;s the code that does that. Notice that all the values in the matrix are 1 which corresponds to everything being a wall. That&#8217;s an arbitrary decision I just made. Seems like 0 for no wall and 1 for a wall makes sense.</p>
 
 <textarea data-component="activecode" id=m_add_matrix data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
 import turtle
+SIZE=400
 class Maze(object):
-      """ Solves a maze using a 20x20 matrix as an internal model
-          and a 400x400 screen graphical view. """
+      """ Solves a maze using a 20x20 matrix (SIZE/20xSIZE/20) as an internal model
+          and a 400x400 screen graphical view (SIZExSIZE). """
       def __init__(self):
          self.screen=turtle.Screen()
          self.turtle=turtle.Turtle()
          self.screen.bgcolor('blue')
-         self.matrix=[[1 for i in range(20)] for i in range(20)]
+         self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
 
 m=Maze()
-assert len(m.matrix)==20
+assert len(m.matrix)==SIZE/20
+assert m.screen.window_width()==SIZE,"window width not correct."
+assert m.screen.window_height()==SIZE,"window height not correct."
 </textarea>
 <p>We will start our path from the upper left hand corner, (another arbitrary choice). Let&#8217;s imagine we are digging our path through the walls. When we dig into the space, we turn a 1 in our matrix to a 0.  This indicates we have an empty space at that location.  It&#8217;s easy to then consider a function called <em>dig</em> where we pass in a direction and the turtle will dig in that direction one space if possible.</p>
 <p>Since we are starting from the upper left hand corner, matrix[0][0] should be 0 and the turtle location should be -190,190.  Let&#8217;s put a reset function in so we can always get to this starting configuration.</p>
 
 <textarea data-component="activecode" id=m_reset_test data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
 import turtle
+SIZE=400
 class Maze(object):
-      """ Solves a maze using a 20x20 matrix as an internal model
-          and a 400x400 screen graphical view. """
+      """ Solves a maze using a 20x20 matrix (SIZE/20xSIZE/20) as an internal model
+          and a 400x400 screen graphical view (SIZExSIZE). """
       def __init__(self):
          self.screen=turtle.Screen()
          self.turtle=turtle.Turtle()
          self.screen.bgcolor('blue')
-         self.matrix=[[1 for i in range(20)] for i in range(20)]
+         self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
+
 
 m=Maze()
 m.reset()
 assert m.matrix[0][0]==0
-assert m.turtle.pos()==(-190,190)
+assert m.turtle.pos()==(-(SIZE/20-10),SIZE/20-10)
 </textarea>
 <p>Make it pass now.</p>
 
 <textarea data-component="activecode" id=m_reset_pass data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
 import turtle
+SIZE=400
 class Maze(object):
    """ Solves a maze using a 20x20 matrix as an internal model
           and a 400x400 screen graphical view. """
@@ -493,11 +525,12 @@ class Maze(object):
       self.screen=turtle.Screen()
       self.turtle=turtle.Turtle()
       self.screen.bgcolor('blue')
-      self.matrix=[[1 for i in range(20)] for i in range(20)]
+      self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
       self.turtle.penup()
+
    def reset(self):
-      self.turtle.goto(-190,190)
-      self.matrix=[[1 for i in range(20)] for i in range(20)]
+      self.turtle.goto(-(SIZE/20-10),SIZE/20-10)
+      self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
       self.screen.bgcolor('blue')
       self.turtle.shape('square')
       self.turtle.color('white')
@@ -507,7 +540,35 @@ class Maze(object):
 m=Maze()
 m.reset()
 assert m.matrix[0][0]==0
-assert m.turtle.pos()==(-190,190)
+assert m.turtle.pos()==(-(SIZE/20-10),SIZE/20-10)
+</textarea>
+<p>Time to refactor. How can we improve on this code?  We have some duplicate code in there.  Let&#8217;s get rid of it.</p>
+
+<textarea data-component="activecode" id=m_dup_fix data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+import turtle
+SIZE=400
+class Maze(object):
+   """ Solves a maze using a 20x20 matrix as an internal model
+          and a 400x400 screen graphical view. """
+   def __init__(self):
+      self.screen=turtle.Screen()
+      self.turtle=turtle.Turtle()
+      self.reset()
+
+   def reset(self):
+      self.turtle.penup()
+      self.turtle.goto(-(SIZE/20-10),(SIZE/20-10))
+      self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
+      self.screen.resetscreen("blue")
+      self.turtle.shape('square')
+      self.turtle.color('white')
+      self.turtle.stamp()
+      self.matrix[0][0]=0
+
+m=Maze()
+m.reset()
+assert m.matrix[0][0]==0
+assert m.turtle.pos()==(-(SIZE/20-10),SIZE/20-10)
 </textarea>
 <p>I think of the turtle as sort-of digging it&#8217;s way through the walls to make the maze.</p>
 <p>We are at a point where we can consider the <em>dig</em> function.  I imagine m.dig(EAST) will move the turtle one square to the East on the screen. But what is EAST and why and I using capitals?  In programming it is common to map words to constants and when we do that we often use all capitals to indicate that&#8217;s what is going on. The way we do this in python is simple.</p>
@@ -1875,7 +1936,6 @@ m.turtle.goto(170,-170)
 m.turtle.color("yellow")
 m.turtle.stamp()
 </textarea>
-<p>I&#8217;ll leave that for you.</p>
 <p>Next part: Part 2
 Part 2: SOLVING THE MAZE</p>
 <p>In this part, we will be adding to the Maze class to solve the maze we just built.</p>
