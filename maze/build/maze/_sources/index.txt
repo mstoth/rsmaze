@@ -260,7 +260,7 @@ Since we are starting from the upper left hand corner, matrix[0][0] should be 0 
    import turtle
    SIZE=400
    class Maze(object):
-      """ Solves a maze using a 20x20 matrix as an internal model
+      """ Creates a maze using a 20x20 matrix as an internal model
              and a 400x400 screen graphical view. """
       def __init__(self):
    	 self.screen=turtle.Screen()
@@ -272,7 +272,7 @@ Since we are starting from the upper left hand corner, matrix[0][0] should be 0 
    m=Maze()
    m.reset()
    assert m.matrix[0][0]==0
-   assert m.turtle.pos()==(-(SIZE/20-10),SIZE/20-10)
+   assert m.turtle.pos()==(-(SIZE/2-10),SIZE/2-10)
 
 Make it pass now. 
 
@@ -291,7 +291,7 @@ Make it pass now.
 	 self.turtle.penup()
 
       def reset(self):
-         self.turtle.goto(-(SIZE/20-10),SIZE/20-10)
+         self.turtle.goto(-(SIZE/2-10),SIZE/2-10)
          self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
 	 self.screen.bgcolor('blue')
          self.turtle.shape('square')
@@ -302,7 +302,7 @@ Make it pass now.
    m=Maze()
    m.reset()
    assert m.matrix[0][0]==0
-   assert m.turtle.pos()==(-(SIZE/20-10),SIZE/20-10)
+   assert m.turtle.pos()==(-(SIZE/2-10),SIZE/2-10)
 
 Time to refactor. How can we improve on this code?  We have some duplicate code in there.  Let's get rid of it.
 
@@ -321,9 +321,9 @@ Time to refactor. How can we improve on this code?  We have some duplicate code 
 
       def reset(self):
 	 self.turtle.penup()
-         self.turtle.goto(-(SIZE/20-10),(SIZE/20-10))
+         self.turtle.goto(-(SIZE/2-10),(SIZE/2-10))
          self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
-         self.screen.resetscreen("blue")
+	 self.screen.bgcolor('blue')
          self.turtle.shape('square')
          self.turtle.color('white')
          self.turtle.stamp()
@@ -332,7 +332,7 @@ Time to refactor. How can we improve on this code?  We have some duplicate code 
    m=Maze()
    m.reset()
    assert m.matrix[0][0]==0
-   assert m.turtle.pos()==(-(SIZE/20-10),SIZE/20-10)
+   assert m.turtle.pos()==(-(SIZE/2-10),SIZE/2-10)
 
 
 

@@ -231,7 +231,9 @@ FITB.prototype.checkPreviousFIB = function () {
             var arr = ex.split(";");
             for (var i = 0; i < this.blankArray.length; i++) {
                 $(this.blankArray[i]).attr("value", arr[i]);
-                this.enableCompareButton();
+                if (this.useRunestoneServices) {
+                    this.enableCompareButton();
+                }
             }
 
         } // end if ex not null
@@ -248,7 +250,7 @@ FITB.prototype.checkFITBStorage = function () {
     // Starts chain of functions which ends with feedBack() displaying feedback to user
     this.evaluateAnswers();
     this.renderFITBFeedback();
-    var answerInfo = "answer:" + this.given_arr + ":" + (this.isCorrect ? "correct" : "no");
+    var answerInfo = "answer:" + this.given_arr + ":" + (this.correct ? "correct" : "no");
     this.logBookEvent({"event": "fillb", "act": answerInfo, "div_id": this.divid});
     this.enableCompareButton.disabled = false;
 };

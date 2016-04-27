@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="_static/poll.css" type="text/css" />
     <link rel="stylesheet" href="_static/tabbedstuff.css" type="text/css" />
     <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/2.3.1/""/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/jquery-ui-1.10.3.custom.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/user-highlights.css" type="text/css" />
@@ -77,9 +78,11 @@
     <script type="text/javascript" src="_static/clike.js"></script>
     <script type="text/javascript" src="_static/lib/jquery.min.js"></script>
     <script type="text/javascript" src="_static/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/lib/jquery.ui.touch-punch.min.js"></script>
     <script type="text/javascript" src="_static/lib/prettify.js"></script>
     <script type="text/javascript" src="_static/lib/underscore-min.js"></script>
     <script type="text/javascript" src="_static/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/parsons_setup.js"></script>
     <script type="text/javascript" src="_static/parsons.js"></script>
     <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
     <script type="text/javascript" src="_static/poll.js"></script>
@@ -503,7 +506,7 @@ assert m.screen.window_height()==SIZE,"window height not correct."
 import turtle
 SIZE=400
 class Maze(object):
-   """ Solves a maze using a 20x20 matrix as an internal model
+   """ Creates a maze using a 20x20 matrix as an internal model
           and a 400x400 screen graphical view. """
    def __init__(self):
       self.screen=turtle.Screen()
@@ -515,7 +518,7 @@ class Maze(object):
 m=Maze()
 m.reset()
 assert m.matrix[0][0]==0
-assert m.turtle.pos()==(-(SIZE/20-10),SIZE/20-10)
+assert m.turtle.pos()==(-(SIZE/2-10),SIZE/2-10)
 </textarea>
 <p>Make it pass now.</p>
 
@@ -533,7 +536,7 @@ class Maze(object):
       self.turtle.penup()
 
    def reset(self):
-      self.turtle.goto(-(SIZE/20-10),SIZE/20-10)
+      self.turtle.goto(-(SIZE/2-10),SIZE/2-10)
       self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
       self.screen.bgcolor('blue')
       self.turtle.shape('square')
@@ -544,7 +547,7 @@ class Maze(object):
 m=Maze()
 m.reset()
 assert m.matrix[0][0]==0
-assert m.turtle.pos()==(-(SIZE/20-10),SIZE/20-10)
+assert m.turtle.pos()==(-(SIZE/2-10),SIZE/2-10)
 </textarea>
 <p>Time to refactor. How can we improve on this code?  We have some duplicate code in there.  Let&#8217;s get rid of it.</p>
 
@@ -561,9 +564,9 @@ class Maze(object):
 
    def reset(self):
       self.turtle.penup()
-      self.turtle.goto(-(SIZE/20-10),(SIZE/20-10))
+      self.turtle.goto(-(SIZE/2-10),(SIZE/2-10))
       self.matrix=[[1 for i in range(SIZE/20)] for i in range(SIZE/20)]
-      self.screen.resetscreen("blue")
+      self.screen.bgcolor('blue')
       self.turtle.shape('square')
       self.turtle.color('white')
       self.turtle.stamp()
@@ -572,7 +575,7 @@ class Maze(object):
 m=Maze()
 m.reset()
 assert m.matrix[0][0]==0
-assert m.turtle.pos()==(-(SIZE/20-10),SIZE/20-10)
+assert m.turtle.pos()==(-(SIZE/2-10),SIZE/2-10)
 </textarea>
 <p>I think of the turtle as sort-of digging it&#8217;s way through the walls to make the maze.</p>
 <p>We are at a point where we can consider the <em>dig</em> function.  I imagine m.dig(EAST) will move the turtle one square to the East on the screen. But what is EAST and why and I using capitals?  In programming it is common to map words to constants and when we do that we often use all capitals to indicate that&#8217;s what is going on. The way we do this in python is simple.</p>

@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="_static/poll.css" type="text/css" />
     <link rel="stylesheet" href="_static/tabbedstuff.css" type="text/css" />
     <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/2.3.1/""/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/jquery-ui-1.10.3.custom.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/user-highlights.css" type="text/css" />
@@ -77,9 +78,11 @@
     <script type="text/javascript" src="_static/clike.js"></script>
     <script type="text/javascript" src="_static/lib/jquery.min.js"></script>
     <script type="text/javascript" src="_static/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/lib/jquery.ui.touch-punch.min.js"></script>
     <script type="text/javascript" src="_static/lib/prettify.js"></script>
     <script type="text/javascript" src="_static/lib/underscore-min.js"></script>
     <script type="text/javascript" src="_static/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/parsons_setup.js"></script>
     <script type="text/javascript" src="_static/parsons.js"></script>
     <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
     <script type="text/javascript" src="_static/poll.js"></script>
@@ -450,7 +453,7 @@ all variables as they are created and modified.  The following example shows cod
 <p class="cl_caption"><span class="cl_caption_text"> (firstexample)</span> </p>
 </div>
 <script type="text/javascript">
-var firstexample_trace = {"code": "print(\"My first program adds two numbers, 2 and 3:\")\nprint(2 + 3)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": [], "stdout": "My first program adds two numbers, 2 and 3:\n", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": [], "stdout": "My first program adds two numbers, 2 and 3:\n5\n", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 2, "event": "return"}]};
+var firstexample_trace = {"trace": [{"stdout": "", "event": "step_line", "line": 1, "func_name": "<module>", "heap": {}, "globals": {}, "stack_to_render": [], "ordered_globals": []}, {"stdout": "My first program adds two numbers, 2 and 3:\n", "event": "step_line", "line": 2, "func_name": "<module>", "heap": {}, "globals": {}, "stack_to_render": [], "ordered_globals": []}, {"stdout": "My first program adds two numbers, 2 and 3:\n5\n", "event": "return", "line": 2, "func_name": "<module>", "heap": {}, "globals": {}, "stack_to_render": [], "ordered_globals": []}], "code": "print(\"My first program adds two numbers, 2 and 3:\")\nprint(2 + 3)"};
 var firstexample_vis;
 
 $(document).ready(function() {
@@ -460,7 +463,7 @@ $(document).ready(function() {
                                     verticalStack: false,
                                     heightChangeCallback: redrawAllVisualizerArrows,
                                     codeDivWidth: 500,
-                                    lang : 'py2'
+                                    lang : 'py3'
                                     });
         attachLoggers(firstexample_vis,'firstexample');
         styleButtons('firstexample');
@@ -498,7 +501,7 @@ more complex aspects of Python.</p>
 <p class="cl_caption"><span class="cl_caption_text"> (secondexample)</span> </p>
 </div>
 <script type="text/javascript">
-var secondexample_trace = {"code": "fruit = [\"apple\",\"orange\",\"banana\",\"cherry\"]\nnumlist = [6,7]\nnewlist = fruit + numlist\nzeros = [0] * 4\n\nzeros[1] = fruit\nzeros[1][2] = numlist", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["fruit"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"fruit": ["REF", 1]}, "heap": {"1": ["LIST", "apple", "orange", "banana", "cherry"]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["fruit", "numlist"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"fruit": ["REF", 1], "numlist": ["REF", 2]}, "heap": {"1": ["LIST", "apple", "orange", "banana", "cherry"], "2": ["LIST", 6, 7]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["fruit", "numlist", "newlist"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"newlist": ["REF", 3], "fruit": ["REF", 1], "numlist": ["REF", 2]}, "heap": {"1": ["LIST", "apple", "orange", "banana", "cherry"], "2": ["LIST", 6, 7], "3": ["LIST", "apple", "orange", "banana", "cherry", 6, 7]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["fruit", "numlist", "newlist", "zeros"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"newlist": ["REF", 3], "fruit": ["REF", 1], "zeros": ["REF", 4], "numlist": ["REF", 2]}, "heap": {"1": ["LIST", "apple", "orange", "banana", "cherry"], "2": ["LIST", 6, 7], "3": ["LIST", "apple", "orange", "banana", "cherry", 6, 7], "4": ["LIST", 0, 0, 0, 0]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["fruit", "numlist", "newlist", "zeros"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"newlist": ["REF", 3], "fruit": ["REF", 1], "zeros": ["REF", 4], "numlist": ["REF", 2]}, "heap": {"1": ["LIST", "apple", "orange", "banana", "cherry"], "2": ["LIST", 6, 7], "3": ["LIST", "apple", "orange", "banana", "cherry", 6, 7], "4": ["LIST", 0, ["REF", 1], 0, 0]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["fruit", "numlist", "newlist", "zeros"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"newlist": ["REF", 3], "fruit": ["REF", 1], "zeros": ["REF", 4], "numlist": ["REF", 2]}, "heap": {"1": ["LIST", "apple", "orange", ["REF", 2], "cherry"], "2": ["LIST", 6, 7], "3": ["LIST", "apple", "orange", "banana", "cherry", 6, 7], "4": ["LIST", 0, ["REF", 1], 0, 0]}, "line": 7, "event": "return"}]};
+var secondexample_trace = {"trace": [{"stdout": "", "event": "step_line", "line": 1, "func_name": "<module>", "heap": {}, "globals": {}, "stack_to_render": [], "ordered_globals": []}, {"stdout": "", "event": "step_line", "line": 2, "func_name": "<module>", "heap": {"1": ["LIST", "apple", "orange", "banana", "cherry"]}, "globals": {"fruit": ["REF", 1]}, "stack_to_render": [], "ordered_globals": ["fruit"]}, {"stdout": "", "event": "step_line", "line": 3, "func_name": "<module>", "heap": {"1": ["LIST", "apple", "orange", "banana", "cherry"], "2": ["LIST", 6, 7]}, "globals": {"numlist": ["REF", 2], "fruit": ["REF", 1]}, "stack_to_render": [], "ordered_globals": ["fruit", "numlist"]}, {"stdout": "", "event": "step_line", "line": 4, "func_name": "<module>", "heap": {"1": ["LIST", "apple", "orange", "banana", "cherry"], "2": ["LIST", 6, 7], "3": ["LIST", "apple", "orange", "banana", "cherry", 6, 7]}, "globals": {"newlist": ["REF", 3], "numlist": ["REF", 2], "fruit": ["REF", 1]}, "stack_to_render": [], "ordered_globals": ["fruit", "numlist", "newlist"]}, {"stdout": "", "event": "step_line", "line": 6, "func_name": "<module>", "heap": {"1": ["LIST", "apple", "orange", "banana", "cherry"], "2": ["LIST", 6, 7], "3": ["LIST", "apple", "orange", "banana", "cherry", 6, 7], "4": ["LIST", 0, 0, 0, 0]}, "globals": {"newlist": ["REF", 3], "numlist": ["REF", 2], "fruit": ["REF", 1], "zeros": ["REF", 4]}, "stack_to_render": [], "ordered_globals": ["fruit", "numlist", "newlist", "zeros"]}, {"stdout": "", "event": "step_line", "line": 7, "func_name": "<module>", "heap": {"1": ["LIST", "apple", "orange", "banana", "cherry"], "2": ["LIST", 6, 7], "3": ["LIST", "apple", "orange", "banana", "cherry", 6, 7], "4": ["LIST", 0, ["REF", 1], 0, 0]}, "globals": {"newlist": ["REF", 3], "numlist": ["REF", 2], "fruit": ["REF", 1], "zeros": ["REF", 4]}, "stack_to_render": [], "ordered_globals": ["fruit", "numlist", "newlist", "zeros"]}, {"stdout": "", "event": "return", "line": 7, "func_name": "<module>", "heap": {"1": ["LIST", "apple", "orange", ["REF", 2], "cherry"], "2": ["LIST", 6, 7], "3": ["LIST", "apple", "orange", "banana", "cherry", 6, 7], "4": ["LIST", 0, ["REF", 1], 0, 0]}, "globals": {"newlist": ["REF", 3], "numlist": ["REF", 2], "fruit": ["REF", 1], "zeros": ["REF", 4]}, "stack_to_render": [], "ordered_globals": ["fruit", "numlist", "newlist", "zeros"]}], "code": "fruit = [\"apple\",\"orange\",\"banana\",\"cherry\"]\nnumlist = [6,7]\nnewlist = fruit + numlist\nzeros = [0] * 4\n\nzeros[1] = fruit\nzeros[1][2] = numlist"};
 var secondexample_vis;
 
 $(document).ready(function() {
@@ -508,7 +511,7 @@ $(document).ready(function() {
                                     verticalStack: false,
                                     heightChangeCallback: redrawAllVisualizerArrows,
                                     codeDivWidth: 500,
-                                    lang : 'py2'
+                                    lang : 'py3'
                                     });
         attachLoggers(secondexample_vis,'secondexample');
         styleButtons('secondexample');
@@ -590,131 +593,11 @@ correct number as well as the feedback for each.</p>
             <p>And finally here is a way of giving your students some simple programming problems where the code is already there for them but not indented or in the correct order.  Use drag-and-drop to get everthing right.</p>
 <p><strong>Check your understanding</strong></p>
 
-        <div class='parsons alert alert-warning' id="parsons-243">
-        <div class="parsons-text">sc-1-3: Construct a block of code that correctly implements the accumulator pattern.<br /><br /></div>
-        <div style="clear:left;"></div>
-        <div id="parsons-orig-243" style="display:none;">x = 0
+    <pre data-component="parsons" id="question1_100_4">
+        <span data-question>sc-1-3: Construct a block of code that correctly implements the accumulator pattern.</span>x = 0
 for i in range(10)
-   x = x + 1</div>
-        <div class="sortable-code-container">
-        <div id="parsons-sortableTrash-243" class="sortable-code"></div>
-        <div id="parsons-sortableCode-243" class="sortable-code"></div>
-        <div style="clear:left;"></div>
-        </div>
-        <div class="parsons-controls">
-        <input type="button" class='btn btn-success' id="checkMe243" value="Check Me"/>
-        <input type="button" class='btn btn-default' id="reset243" value="Reset"/>
-        <div id="parsons-message-243"></div>
-        </div>
-        </div>
-
-    <script>
-        $pjQ(document).ready(function(){
-            var rb = new RunestoneBase();
-            $("#parsons-243").not(".sortable-code").not(".parsons-controls").on("click", function(){
-                 $('html, body').animate({
-                    scrollTop: ($("#parsons-243").offset().top - 50)
-                }, 700);
-            }).find(".sortable-code, .parsons-controls").click(function(e) {
-                return false;
-                });
-            var msgBox = $("#parsons-message-243");
-            msgBox.hide();
-        var displayErrors = function (fb) {
-            if(fb.errors.length > 0) {
-                    var hash = pp_243.getHash("#ul-parsons-sortableCode-243");
-                    msgBox.fadeIn(500);
-                    msgBox.attr('class','alert alert-danger');
-                    msgBox.html(fb.errors[0]);
-                    rb.logBookEvent({'event':'parsons', 'act':hash, 'div_id':'question1_100_4'});
-
-            } else {
-                    rb.logBookEvent({'event':'parsons', 'act':'yes', 'div_id':'question1_100_4'});
-                    msgBox.fadeIn(100);
-                    msgBox.attr('class','alert alert-success');
-                    msgBox.html("Perfect!")
-                }
-
-        }
-
-        $(window).load(function() {
-            // set min width and height
-            var sortableul = $("#ul-parsons-sortableCode-243");
-            var trashul = $("#ul-parsons-sortableTrash-243");
-            var sortableHeight = sortableul.height();
-            var sortableWidth = sortableul.width();
-            var trashWidth = trashul.width();
-            var trashHeight = trashul.height();
-            var minHeight = Math.max(trashHeight,sortableHeight);
-            var minWidth = Math.max(trashWidth, sortableWidth);
-            trashul.css("min-height",minHeight + "px");
-            sortableul.css("min-height",minHeight + "px");
-            sortableul.height(minHeight);
-            trashul.css("min-width",minWidth + "px");
-            sortableul.css("min-width",minWidth + "px");
-        });
- 
-
-        var pp_243 = new ParsonsWidget({
-                'sortableId': 'parsons-sortableCode-243',
-        'trashId': 'parsons-sortableTrash-243',
-                'max_wrong_lines': 1,
-                'solution_label': 'Drop blocks here',
-                'feedback_cb' : displayErrors
-        });
-        pp_243.init($pjQ("#parsons-orig-243").text());
-    pp_243.shuffleLines();
-            
-        if(localStorage.getItem('question1_100_4') && localStorage.getItem('question1_100_4-trash')) {
-            try {
-                var solution = localStorage.getItem('question1_100_4');
-                var trash = localStorage.getItem('question1_100_4-trash');
-                pp_243.createHTMLFromHashes(solution,trash);
-                pp_243.getFeedback();
-            } catch(err) {
-                var text = "An error occured restoring old question1_100_4 state.  Error: ";
-                console.log(text + err.message);
-            }
-
-        }
-            $pjQ("#reset243").click(function(event){
-              event.preventDefault();
-              pp_243.shuffleLines();
-            
-            // set min width and height
-            var sortableul = $("#ul-parsons-sortableCode-243");
-            var trashul = $("#ul-parsons-sortableTrash-243");
-            var sortableHeight = sortableul.height();
-            var sortableWidth = sortableul.width();
-            var trashWidth = trashul.width();
-            var trashHeight = trashul.height();
-            var minHeight = Math.max(trashHeight,sortableHeight);
-            var minWidth = Math.max(trashWidth, sortableWidth);
-            trashul.css("min-height",minHeight + "px");
-            sortableul.css("min-height",minHeight + "px");
-            trashul.css("min-width",minWidth + "px");
-            sortableul.css("min-width",minWidth + "px");
-              msgBox.hide();
-            });
-            
-            $pjQ("#checkMe243").click(function(event){
-              event.preventDefault();
-              var hash = pp_243.getHash("#ul-parsons-sortableCode-243");
-              localStorage.setItem('question1_100_4',hash);
-              hash = pp_243.getHash("#ul-parsons-sortableTrash-243");
-              localStorage.setItem('question1_100_4-trash',hash);
-            
-            pp_243.getFeedback();
-            msgBox.fadeIn(100);
-            
-            });
-            
-        });
-            
-
-    </script>
-
-<p>Here is a different sort of codelens visualization.  Some codelens blocks can have
+   x = x + 1</pre>
+    <p>Here is a different sort of codelens visualization.  Some codelens blocks can have
 questions embedded in them that will ask you a question about the value of a
 variable, or which line will be the next line to execute.  This example asks you
 to keep track of the <code class="docutils literal"><span class="pre">tot</span></code> variable as you step through the loop.</p>
@@ -747,7 +630,7 @@ to keep track of the <code class="docutils literal"><span class="pre">tot</span>
 
 
 <script type="text/javascript">
-var codelens_question_trace = {"code": "tot = 0\nprod = 1\nfor i in range(10):\n   tot = tot + i\n   prod = prod * i", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["tot"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"tot": 0}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["tot", "prod"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"prod": 1, "tot": 0}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "question": {"text": "What is the value of tot after the line with the red arrow executes?", "div": "codelens_question_modal", "feedback": "Use the global variables box to look at the current values of tot and i.", "correct": "globals.tot"}, "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0, "prod": 1, "tot": 0}, "heap": {}, "line": 4, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0, "prod": 1, "tot": 0}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0, "prod": 0, "tot": 0}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "question": {"text": "What is the value of tot after the line with the red arrow executes?", "div": "codelens_question_modal", "feedback": "Use the global variables box to look at the current values of tot and i.", "correct": "globals.tot"}, "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 1, "prod": 0, "tot": 0}, "heap": {}, "line": 4, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 1, "prod": 0, "tot": 1}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 1, "prod": 0, "tot": 1}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "question": {"text": "What is the value of tot after the line with the red arrow executes?", "div": "codelens_question_modal", "feedback": "Use the global variables box to look at the current values of tot and i.", "correct": "globals.tot"}, "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2, "prod": 0, "tot": 1}, "heap": {}, "line": 4, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2, "prod": 0, "tot": 3}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2, "prod": 0, "tot": 3}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "question": {"text": "What is the value of tot after the line with the red arrow executes?", "div": "codelens_question_modal", "feedback": "Use the global variables box to look at the current values of tot and i.", "correct": "globals.tot"}, "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 3, "prod": 0, "tot": 3}, "heap": {}, "line": 4, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 3, "prod": 0, "tot": 6}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 3, "prod": 0, "tot": 6}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "question": {"text": "What is the value of tot after the line with the red arrow executes?", "div": "codelens_question_modal", "feedback": "Use the global variables box to look at the current values of tot and i.", "correct": "globals.tot"}, "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4, "prod": 0, "tot": 6}, "heap": {}, "line": 4, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4, "prod": 0, "tot": 10}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4, "prod": 0, "tot": 10}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "question": {"text": "What is the value of tot after the line with the red arrow executes?", "div": "codelens_question_modal", "feedback": "Use the global variables box to look at the current values of tot and i.", "correct": "globals.tot"}, "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 5, "prod": 0, "tot": 10}, "heap": {}, "line": 4, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 5, "prod": 0, "tot": 15}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 5, "prod": 0, "tot": 15}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "question": {"text": "What is the value of tot after the line with the red arrow executes?", "div": "codelens_question_modal", "feedback": "Use the global variables box to look at the current values of tot and i.", "correct": "globals.tot"}, "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 6, "prod": 0, "tot": 15}, "heap": {}, "line": 4, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 6, "prod": 0, "tot": 21}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 6, "prod": 0, "tot": 21}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "question": {"text": "What is the value of tot after the line with the red arrow executes?", "div": "codelens_question_modal", "feedback": "Use the global variables box to look at the current values of tot and i.", "correct": "globals.tot"}, "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 7, "prod": 0, "tot": 21}, "heap": {}, "line": 4, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 7, "prod": 0, "tot": 28}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 7, "prod": 0, "tot": 28}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "question": {"text": "What is the value of tot after the line with the red arrow executes?", "div": "codelens_question_modal", "feedback": "Use the global variables box to look at the current values of tot and i.", "correct": "globals.tot"}, "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 8, "prod": 0, "tot": 28}, "heap": {}, "line": 4, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 8, "prod": 0, "tot": 36}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 8, "prod": 0, "tot": 36}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "question": {"text": "What is the value of tot after the line with the red arrow executes?", "div": "codelens_question_modal", "feedback": "Use the global variables box to look at the current values of tot and i.", "correct": "globals.tot"}, "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 9, "prod": 0, "tot": 36}, "heap": {}, "line": 4, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 9, "prod": 0, "tot": 45}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 9, "prod": 0, "tot": 45}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["tot", "prod", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 9, "prod": 0, "tot": 45}, "heap": {}, "line": 3, "event": "return"}]};
+var codelens_question_trace = {"trace": [{"stdout": "", "event": "step_line", "line": 1, "func_name": "<module>", "heap": {}, "globals": {}, "stack_to_render": [], "ordered_globals": []}, {"stdout": "", "event": "step_line", "line": 2, "func_name": "<module>", "heap": {}, "globals": {"tot": 0}, "stack_to_render": [], "ordered_globals": ["tot"]}, {"stdout": "", "event": "step_line", "line": 3, "func_name": "<module>", "heap": {}, "globals": {"tot": 0, "prod": 1}, "stack_to_render": [], "ordered_globals": ["tot", "prod"]}, {"stdout": "", "event": "step_line", "line": 4, "func_name": "<module>", "heap": {}, "question": {"correct": "globals.tot", "feedback": "Use the global variables box to look at the current values of tot and i.", "div": "codelens_question_modal", "text": "What is the value of tot after the line with the red arrow executes?"}, "globals": {"i": 0, "tot": 0, "prod": 1}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 5, "func_name": "<module>", "heap": {}, "globals": {"i": 0, "tot": 0, "prod": 1}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 3, "func_name": "<module>", "heap": {}, "globals": {"i": 0, "tot": 0, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 4, "func_name": "<module>", "heap": {}, "question": {"correct": "globals.tot", "feedback": "Use the global variables box to look at the current values of tot and i.", "div": "codelens_question_modal", "text": "What is the value of tot after the line with the red arrow executes?"}, "globals": {"i": 1, "tot": 0, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 5, "func_name": "<module>", "heap": {}, "globals": {"i": 1, "tot": 1, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 3, "func_name": "<module>", "heap": {}, "globals": {"i": 1, "tot": 1, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 4, "func_name": "<module>", "heap": {}, "question": {"correct": "globals.tot", "feedback": "Use the global variables box to look at the current values of tot and i.", "div": "codelens_question_modal", "text": "What is the value of tot after the line with the red arrow executes?"}, "globals": {"i": 2, "tot": 1, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 5, "func_name": "<module>", "heap": {}, "globals": {"i": 2, "tot": 3, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 3, "func_name": "<module>", "heap": {}, "globals": {"i": 2, "tot": 3, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 4, "func_name": "<module>", "heap": {}, "question": {"correct": "globals.tot", "feedback": "Use the global variables box to look at the current values of tot and i.", "div": "codelens_question_modal", "text": "What is the value of tot after the line with the red arrow executes?"}, "globals": {"i": 3, "tot": 3, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 5, "func_name": "<module>", "heap": {}, "globals": {"i": 3, "tot": 6, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 3, "func_name": "<module>", "heap": {}, "globals": {"i": 3, "tot": 6, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 4, "func_name": "<module>", "heap": {}, "question": {"correct": "globals.tot", "feedback": "Use the global variables box to look at the current values of tot and i.", "div": "codelens_question_modal", "text": "What is the value of tot after the line with the red arrow executes?"}, "globals": {"i": 4, "tot": 6, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 5, "func_name": "<module>", "heap": {}, "globals": {"i": 4, "tot": 10, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 3, "func_name": "<module>", "heap": {}, "globals": {"i": 4, "tot": 10, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 4, "func_name": "<module>", "heap": {}, "question": {"correct": "globals.tot", "feedback": "Use the global variables box to look at the current values of tot and i.", "div": "codelens_question_modal", "text": "What is the value of tot after the line with the red arrow executes?"}, "globals": {"i": 5, "tot": 10, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 5, "func_name": "<module>", "heap": {}, "globals": {"i": 5, "tot": 15, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 3, "func_name": "<module>", "heap": {}, "globals": {"i": 5, "tot": 15, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 4, "func_name": "<module>", "heap": {}, "question": {"correct": "globals.tot", "feedback": "Use the global variables box to look at the current values of tot and i.", "div": "codelens_question_modal", "text": "What is the value of tot after the line with the red arrow executes?"}, "globals": {"i": 6, "tot": 15, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 5, "func_name": "<module>", "heap": {}, "globals": {"i": 6, "tot": 21, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 3, "func_name": "<module>", "heap": {}, "globals": {"i": 6, "tot": 21, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 4, "func_name": "<module>", "heap": {}, "question": {"correct": "globals.tot", "feedback": "Use the global variables box to look at the current values of tot and i.", "div": "codelens_question_modal", "text": "What is the value of tot after the line with the red arrow executes?"}, "globals": {"i": 7, "tot": 21, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 5, "func_name": "<module>", "heap": {}, "globals": {"i": 7, "tot": 28, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 3, "func_name": "<module>", "heap": {}, "globals": {"i": 7, "tot": 28, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 4, "func_name": "<module>", "heap": {}, "question": {"correct": "globals.tot", "feedback": "Use the global variables box to look at the current values of tot and i.", "div": "codelens_question_modal", "text": "What is the value of tot after the line with the red arrow executes?"}, "globals": {"i": 8, "tot": 28, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 5, "func_name": "<module>", "heap": {}, "globals": {"i": 8, "tot": 36, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 3, "func_name": "<module>", "heap": {}, "globals": {"i": 8, "tot": 36, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 4, "func_name": "<module>", "heap": {}, "question": {"correct": "globals.tot", "feedback": "Use the global variables box to look at the current values of tot and i.", "div": "codelens_question_modal", "text": "What is the value of tot after the line with the red arrow executes?"}, "globals": {"i": 9, "tot": 36, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 5, "func_name": "<module>", "heap": {}, "globals": {"i": 9, "tot": 45, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "step_line", "line": 3, "func_name": "<module>", "heap": {}, "globals": {"i": 9, "tot": 45, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}, {"stdout": "", "event": "return", "line": 3, "func_name": "<module>", "heap": {}, "globals": {"i": 9, "tot": 45, "prod": 0}, "stack_to_render": [], "ordered_globals": ["tot", "prod", "i"]}], "code": "tot = 0\nprod = 1\nfor i in range(10):\n   tot = tot + i\n   prod = prod * i"};
 var codelens_question_vis;
 
 $(document).ready(function() {
@@ -757,7 +640,7 @@ $(document).ready(function() {
                                     verticalStack: false,
                                     heightChangeCallback: redrawAllVisualizerArrows,
                                     codeDivWidth: 500,
-                                    lang : 'py2'
+                                    lang : 'py3'
                                     });
         attachLoggers(codelens_question_vis,'codelens_question');
         styleButtons('codelens_question');
@@ -817,7 +700,7 @@ next line executed.</p>
 
 
 <script type="text/javascript">
-var codelens_question_line_trace = {"code": "x = 2\ny = 0\nif x % 2 == 1:\n    print('x is odd')\n    y = y + x\nelse:\n    print('x is even')\n    y = y - x", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["x"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"x": 2}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["x", "y"], "question": {"text": "After the line with the red arrow is executed, which will be next?", "div": "codelens_question_line_modal", "feedback": "Remember that in an if/else statement only one block is executed.", "correct": "line"}, "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"y": 0, "x": 2}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["x", "y"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"y": 0, "x": 2}, "heap": {}, "line": 7, "event": "step_line"}, {"ordered_globals": ["x", "y"], "stdout": "x is even\n", "func_name": "<module>", "stack_to_render": [], "globals": {"y": 0, "x": 2}, "heap": {}, "line": 8, "event": "step_line"}, {"ordered_globals": ["x", "y"], "stdout": "x is even\n", "func_name": "<module>", "stack_to_render": [], "globals": {"y": -2, "x": 2}, "heap": {}, "line": 8, "event": "return"}]};
+var codelens_question_line_trace = {"trace": [{"stdout": "", "event": "step_line", "line": 1, "func_name": "<module>", "heap": {}, "globals": {}, "stack_to_render": [], "ordered_globals": []}, {"stdout": "", "event": "step_line", "line": 2, "func_name": "<module>", "heap": {}, "globals": {"x": 2}, "stack_to_render": [], "ordered_globals": ["x"]}, {"stdout": "", "event": "step_line", "line": 3, "func_name": "<module>", "heap": {}, "question": {"correct": "line", "feedback": "Remember that in an if/else statement only one block is executed.", "div": "codelens_question_line_modal", "text": "After the line with the red arrow is executed, which will be next?"}, "globals": {"y": 0, "x": 2}, "stack_to_render": [], "ordered_globals": ["x", "y"]}, {"stdout": "", "event": "step_line", "line": 7, "func_name": "<module>", "heap": {}, "globals": {"y": 0, "x": 2}, "stack_to_render": [], "ordered_globals": ["x", "y"]}, {"stdout": "x is even\n", "event": "step_line", "line": 8, "func_name": "<module>", "heap": {}, "globals": {"y": 0, "x": 2}, "stack_to_render": [], "ordered_globals": ["x", "y"]}, {"stdout": "x is even\n", "event": "return", "line": 8, "func_name": "<module>", "heap": {}, "globals": {"y": -2, "x": 2}, "stack_to_render": [], "ordered_globals": ["x", "y"]}], "code": "x = 2\ny = 0\nif x % 2 == 1:\n    print('x is odd')\n    y = y + x\nelse:\n    print('x is even')\n    y = y - x"};
 var codelens_question_line_vis;
 
 $(document).ready(function() {
@@ -827,7 +710,7 @@ $(document).ready(function() {
                                     verticalStack: false,
                                     heightChangeCallback: redrawAllVisualizerArrows,
                                     codeDivWidth: 500,
-                                    lang : 'py2'
+                                    lang : 'py3'
                                     });
         attachLoggers(codelens_question_line_vis,'codelens_question_line');
         styleButtons('codelens_question_line');
