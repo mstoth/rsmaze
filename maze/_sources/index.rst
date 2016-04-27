@@ -21,7 +21,7 @@ As you follow along with this example, you can execute the code by clicking on t
 
 
 
-The first thing we need to test for is a Maze class.  Of course there is no Maze class.  We haven't written it yet.  But we are stupid.  Let's test for it.
+The first thing we need to test for is a Maze class.  Of course there is no Maze class.  We haven't written it yet.  We test for it first.
 
 
 .. activecode:: m_test_1
@@ -50,18 +50,17 @@ Now let's make this class exist.
 
 .. activecode:: m_class_1
 
-    # 
     class Maze(object):
        """ Creates a maze. (We don't know anything more than that yet.) """
        def __init__(self):
           pass
 
-       condition="GREEN"
-       try:
-          m=Maze()
-       except:
-          condition="RED"
-       print "Condition: " + condition
+    condition="GREEN"
+    try:
+       m=Maze()
+    except:
+       condition="RED"
+    print "Condition: " + condition
 
 
 We will use the turtle module to make our maze. You may need to read up a little on the turtle

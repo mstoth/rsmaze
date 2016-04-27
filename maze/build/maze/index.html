@@ -299,7 +299,7 @@
 <h2>SECTION 1: Introduction<a class="headerlink" href="#section-1-introduction" title="Permalink to this headline">¶</a></h2>
 <p>We will be first creating a maze using test driven development techniques.  Each step of the way will begin with a test.
 As you follow along with this example, you can execute the code by clicking on the run buttons. You can also change the code and rerun any of them if you want to experiment or find out more.</p>
-<p>The first thing we need to test for is a Maze class.  Of course there is no Maze class.  We haven&#8217;t written it yet.  But we are stupid.  Let&#8217;s test for it.</p>
+<p>The first thing we need to test for is a Maze class.  Of course there is no Maze class.  We haven&#8217;t written it yet.  We test for it first.</p>
 
 <textarea data-component="activecode" id=m_test_1 data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
 m=Maze() # see if a Maze class exists.
@@ -320,67 +320,27 @@ except:
 <p>Now let&#8217;s make this class exist.</p>
 
 <textarea data-component="activecode" id=m_class_1 data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
-#
 class Maze(object):
    """ Creates a maze. (We don't know anything more than that yet.) """
    def __init__(self):
       pass
 
-   condition="GREEN"
-   try:
-      m=Maze()
-   except:
-      condition="RED"
-   print "Condition: " + condition
+condition="GREEN"
+try:
+   m=Maze()
+except:
+   condition="RED"
+print "Condition: " + condition
 </textarea>
 <p>We will use the turtle module to make our maze. You may need to read up a little on the turtle
 module to learn the features available to you.</p>
 <p>The screen is created with the following command</p>
 
-<div class="alert alert-warning cd_section">
-<div id="m_w_1"></div>
-<p class="cl_caption"><span class="cl_caption_text"> (m_w_1)</span> </p>
-</div>
-<script type="text/javascript">
-var m_w_1_trace = {"code": "import turtle\nwn = turtle.Screen()\nwn.bgcolor(\"blue\")", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": [], "stdout": "", "exception_msg": "ImportError: turtle not supported", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "exception"}]};
-var m_w_1_vis;
-
-$(document).ready(function() {
-    try {
-        m_w_1_vis = new ExecutionVisualizer('m_w_1',m_w_1_trace,
-                                    {embeddedMode: true,
-                                    verticalStack: false,
-                                    heightChangeCallback: redrawAllVisualizerArrows,
-                                    codeDivWidth: 500,
-                                    lang : 'py2'
-                                    });
-        attachLoggers(m_w_1_vis,'m_w_1');
-        styleButtons('m_w_1');
-        allVisualizers.push(m_w_1_vis);
-    } catch (e) {
-        console.log("Failed to Initialize CodeLens component m_w_1_vis" );
-        console.log(e.toString());
-    }
-
-});
-
-$(document).ready(function() {
-    $("#m_w_1_tracecheck").click(function() {
-        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'m_w_1'});
-    });
-});
-
-if (allVisualizers === undefined) {
-   var allVisualizers = [];
-}
-
-
-$(window).resize(function() {
-    if (m_w_1_vis) {
-        m_w_1_vis.redrawConnectors();
-    }
-});
-</script>
+<textarea data-component="activecode" id=m_w_1 data-lang="python"    data-timelimit=25000  data-codelens="true" data-audio=''     >
+import turtle
+wn = turtle.Screen()
+wn.bgcolor("blue")
+</textarea>
 <p>When you run this code you will see the blue screen we created. A blue color means a wall.
 This is the visual representation of our maze. We don&#8217;t have any paths created yet. It&#8217;s all
 wall.</p>
