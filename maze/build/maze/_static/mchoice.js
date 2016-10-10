@@ -232,12 +232,12 @@ MultipleChoice.prototype.renderMCFormButtons = function () {
     });
     if (this.multipleanswers) {
         this.submitButton.addEventListener("click", function () {
-            this.processMCMASubmission(true);
+            this.processMCMASubmission();
         }.bind(this), false);
     } else {
         this.submitButton.addEventListener("click", function (ev) {
             ev.preventDefault();
-            this.processMCMFSubmission(true);
+            this.processMCMFSubmission();
         }.bind(this), false);
     } // end else
     this.optsForm.appendChild(this.submitButton);
@@ -313,9 +313,7 @@ MultipleChoice.prototype.restoreMultipleSelect = function () {
                         $(this.optionArray[b].input).attr("checked", "true");
                     }
                 }
-                if (this.useRunestoneServices) {
-                    this.enableMCComparison();
-                }
+                this.enableMCComparison();
             } // end for
         } // end if
     } // end if len > 0
@@ -337,9 +335,7 @@ MultipleChoice.prototype.restoreRadio = function () {
                     $(this.optionArray[b].input).attr("checked", "true");
                 }
             }
-            if (this.useRunestoneServices) {
-                this.enableMCComparison();
-            }
+            this.enableMCComparison();
         } // end if not null
     } // end if (len > 0)
 };
@@ -348,18 +344,14 @@ MultipleChoice.prototype.restoreRadio = function () {
 === Processing MC Submissions ===
 ===============================*/
 
-MultipleChoice.prototype.processMCMASubmission = function (logFlag) {
+MultipleChoice.prototype.processMCMASubmission = function () {
     // Called when the submit button is clicked
     this.getSubmittedOpts();
     this.scoreMCMASubmission();
     this.populateMCMALocalStorage();
-    if (logFlag) {
-       this.logMCMAsubmission();
-    }
+    this.logMCMAsubmission();
     this.renderMCMAFeedBack();
-    if (this.useRunestoneServices) {
-        this.enableMCComparison();
-    }
+    this.enableMCComparison();
 };
 
 MultipleChoice.prototype.getSubmittedOpts = function () {
@@ -432,18 +424,14 @@ MultipleChoice.prototype.renderMCMAFeedBack = function () {
     }
 };
 
-MultipleChoice.prototype.processMCMFSubmission = function (logFlag) {
+MultipleChoice.prototype.processMCMFSubmission = function () {
     // Called when the submit button is clicked
     this.getSubmittedOpts();
     this.populateMCMFLocalStorage();
     this.scoreMCMFSubmission();
-    if (logFlag) {
-        this.logMCMFsubmission();
-    }
+    this.logMCMFsubmission();
     this.renderMCMFFeedback(this.givenArray[0] == this.correctIndexList[0], this.singlefeedback);
-    if (this.useRunestoneServices) {
-        this.enableMCComparison();
-    }
+    this.enableMCComparison();
 };
 
 MultipleChoice.prototype.scoreMCMFSubmission = function () {

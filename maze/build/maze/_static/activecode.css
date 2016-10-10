@@ -92,6 +92,6 @@
     border: 2px solid black;
 }
 
-.full_width ol {
+ol.arabic {
 	max-width: 100% !important;
 }

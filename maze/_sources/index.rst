@@ -218,8 +218,8 @@ This is all useful for learning about the tools we have.  Let's create a test fo
    import turtle
    SIZE=400
    class Maze(object):
-   	 """ Solves a maze """
-         def __init__(self):
+      """ Solves a maze """
+      def __init__(self):
       	 self.screen=turtle.Screen()
       	 self.turtle=turtle.Turtle()
       	 self.screen.bgcolor('blue')

@@ -349,7 +349,7 @@ Timed.prototype.handlePrevAssessment = function () {
         this.running = 0;
         this.done = 1;
         $(this.timedDiv).show();
-        this.submitTimedProblems(false); // do not log these results
+        this.submitTimedProblems();
 }
 
 Timed.prototype.startAssessment = function () {
@@ -508,7 +508,7 @@ Timed.prototype.finishAssessment = function () {
         this.running = 0;
         this.done = 1;
         this.taken = 1;
-        this.submitTimedProblems(true); // log results
+        this.submitTimedProblems();
         this.checkScore();
         this.displayScore();
         this.storeScore();
@@ -518,9 +518,9 @@ Timed.prototype.finishAssessment = function () {
     }
 };
 
-Timed.prototype.submitTimedProblems = function (logFlag) {
+Timed.prototype.submitTimedProblems = function () {
     for (var i = 0; i < this.renderedQuestionArray.length; i++) {
-        this.renderedQuestionArray[i].processTimedSubmission(logFlag);
+        this.renderedQuestionArray[i].processTimedSubmission();
     }
     if (!this.showFeedback) {
         this.hideTimedFeedback();

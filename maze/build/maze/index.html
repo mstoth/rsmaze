@@ -25,7 +25,6 @@
     <link rel="stylesheet" href="_static/poll.css" type="text/css" />
     <link rel="stylesheet" href="_static/tabbedstuff.css" type="text/css" />
     <link rel="stylesheet" href="_static/video.css" type="text/css" />
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/2.3.1/""/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/jquery-ui-1.10.3.custom.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/user-highlights.css" type="text/css" />
@@ -78,11 +77,9 @@
     <script type="text/javascript" src="_static/clike.js"></script>
     <script type="text/javascript" src="_static/lib/jquery.min.js"></script>
     <script type="text/javascript" src="_static/lib/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="_static/lib/jquery.ui.touch-punch.min.js"></script>
     <script type="text/javascript" src="_static/lib/prettify.js"></script>
     <script type="text/javascript" src="_static/lib/underscore-min.js"></script>
     <script type="text/javascript" src="_static/lib/lis.js"></script>
-    <script type="text/javascript" src="_static/parsons_setup.js"></script>
     <script type="text/javascript" src="_static/parsons.js"></script>
     <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
     <script type="text/javascript" src="_static/poll.js"></script>
@@ -469,8 +466,8 @@ for x in range(-190,210,20):
 import turtle
 SIZE=400
 class Maze(object):
-      """ Solves a maze """
-      def __init__(self):
+   """ Solves a maze """
+   def __init__(self):
       self.screen=turtle.Screen()
       self.turtle=turtle.Turtle()
       self.screen.bgcolor('blue')
